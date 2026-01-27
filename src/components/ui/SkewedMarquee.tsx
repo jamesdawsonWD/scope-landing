@@ -11,18 +11,20 @@ type BentoTile = {
 /**
  * A repeating "layout recipe" that packs perfectly into 3 rows.
  * Each "block" is 6 columns wide and fills all 3 rows with no gaps.
+ * Order matters: place larger/taller tiles first so dense packing works correctly.
  */
 const LAYOUT_RECIPE: Array<Pick<BentoTile, 'colSpan' | 'rowSpan'>> = [
-  // Tall hero tile
+  // Tall hero tile (2×3 = 6 cells)
   { colSpan: 2, rowSpan: 3 },
-
-  // Fill the remaining 4 cols × 3 rows area = 12 cells.
+  // 2×2 block (4 cells)
   { colSpan: 2, rowSpan: 2 },
+  // Two 1×2 tiles (2 cells each = 4 cells)
+  { colSpan: 1, rowSpan: 2 },
+  { colSpan: 1, rowSpan: 2 },
+  // Bottom row fills: 2×1 + two 1×1 (2 + 1 + 1 = 4 cells)
   { colSpan: 2, rowSpan: 1 },
   { colSpan: 1, rowSpan: 1 },
   { colSpan: 1, rowSpan: 1 },
-  { colSpan: 1, rowSpan: 2 },
-  { colSpan: 1, rowSpan: 2 },
 ]
 
 function buildTiles(videos: string[], repeatBlocks: number): BentoTile[] {
