@@ -9,43 +9,43 @@ const models = [
     name: 'Overworld/Waypoint-1-Small',
     type: 'World Model',
     description: 'Real-time world simulation and generation',
-    link: '#',
+    link: 'https://github.com/daydreamlive/scope-overworld',
     video: '/videos/video-2.mp4',
   },
   {
     name: 'krea/krea-realtime-video',
     type: 'Autoregressive Video Diffusion Model',
     description: 'Ultra-fast real-time video generation',
-    link: '#',
+    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/krea_realtime_video/docs/usage.md',
     video: '/videos/video-1.mp4',
   },
   {
     name: 'NVlabs/LongLive-1.3B',
     type: 'Autoregressive Video Diffusion Model',
     description: 'Long-form coherent video synthesis',
-    link: '#',
+    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/longlive/docs/usage.md',
     video: '/videos/video-6.mp4',
   },
   {
     name: 'KlingTeam/MemFlow',
     type: 'Autoregressive Video Diffusion Model',
     description: 'Memory-efficient video flow generation',
-    link: '#',
-    video: undefined,
+    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/memflow/docs/usage.md',
+    video: '/videos/video-3.mp4',
   },
   {
     name: 'StreamDiffusionV2',
     type: 'Autoregressive Video Diffusion Model',
     description: 'Streaming real-time diffusion pipeline',
-    link: '#',
+    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/streamdiffusionv2/docs/usage.md',
     video: '/videos/streamdiffusion-demo.mp4',
   },
   {
     name: 'Reward-Forcing-T2V-1.3B',
     type: 'Autoregressive Video Diffusion Model',
     description: 'Text-to-video with reward optimization',
-    link: '#',
-    video: undefined,
+    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/reward_forcing/docs/usage.md',
+    video: '/videos/video-5.mp4',
   },
 ]
 
@@ -340,6 +340,8 @@ function ModelCard({
             </motion.h3>
             <a 
               href={model.link}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               className="flex-shrink-0 mb-1"
             >
