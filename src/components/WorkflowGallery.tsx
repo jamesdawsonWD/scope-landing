@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { useRef } from 'react'
+import { LazyVideo } from './ui/LazyVideo'
 
 // Layout pattern:
 // Row 1-2: [2 cols] + [1 col] - both 2 rows tall
@@ -125,12 +126,8 @@ function WorkflowCard({ workflow, index }: { workflow: (typeof workflows)[0]; in
     >
       <div className="relative h-full rounded-2xl overflow-hidden bg-card border border-card-border hover:border-white/30 transition-colors">
         {/* Video */}
-        <video 
+        <LazyVideo 
           src={workflow.video}
-          autoPlay
-          loop
-          muted
-          playsInline
           className="absolute inset-0 w-full h-full object-cover"
         />
         

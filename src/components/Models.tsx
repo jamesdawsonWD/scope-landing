@@ -3,6 +3,7 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef, useState, useEffect, useCallback } from 'react'
+import { LazyVideo } from './ui/LazyVideo'
 
 const models = [
   {
@@ -254,11 +255,16 @@ function ModelCard({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Play/pause video based on active state
+  // Play/pause video based on active state - only load video when active
   useEffect(() => {
-    if (videoRef.current) {
-      if (isActive && model.video) {
-        videoRef.current.play()
+    if (videoRef.current && model.video) {
+      if (isActive) {
+        // Load and play video when active
+        if (!videoRef.current.src || !videoRef.current.src.includes(model.video)) {
+          videoRef.current.src = model.video
+          videoRef.current.load()
+        }
+        videoRef.current.play().catch(() => {})
       } else {
         videoRef.current.pause()
         videoRef.current.currentTime = 0
@@ -303,11 +309,13 @@ function ModelCard({
             >
               <video
                 ref={videoRef}
-                src={model.video}
+                poster={model.video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
                 muted
                 loop
                 playsInline
+                preload="none"
                 className="w-full h-full object-cover"
+                style={{ backgroundColor: '#0a0a0a' }}
               />
               {/* Video overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
