@@ -6,13 +6,13 @@ import { useRef } from 'react'
 import { MarqueeBento } from './ui/SkewedMarquee'
 
 const videos = [
-  'https://clips.t3.storage.dev/assets/1763492560145-c354cace.mp4',
-  'https://clips.t3.storage.dev/assets/1769500553761-3280e975.mp4',
-  'https://clips.t3.storage.dev/assets/1769460782968-ae272f92.mp4',
-  'https://clips.t3.storage.dev/assets/1769216428640-db08573d.mp4',
-  'https://clips.t3.storage.dev/assets/1766989249287-1e92ecc3.mp4',
-  'https://clips.t3.storage.dev/assets/1767622109417-515cbfd7.mp4',
-  'https://storage.googleapis.com/livepeer-ai-video-dev/creators/panda/panda.mp4',
+  '/videos/video-1.mp4',
+  '/videos/video-2.mp4',
+  '/videos/video-3.mp4',
+  '/videos/video-4.mp4',
+  '/videos/video-5.mp4',
+  '/videos/video-6.mp4',
+  '/videos/video-7.mp4',
 ]
 
 export default function Hero() {
