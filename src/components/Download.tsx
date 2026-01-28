@@ -72,7 +72,8 @@ export default function Download() {
             Download <span className="gradient-text">Scope</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Get started with Scope on your platform of choice.
+            An open source and local-first tool for running and customizing real-time interactive video models. 
+            Combine bleeding-edge capabilities into a controllable, bespoke workflow.
           </p>
         </motion.div>
 
@@ -96,7 +97,7 @@ export default function Download() {
           className="flex justify-center"
         >
           <motion.a
-            href="https://github.com"
+            href="https://github.com/daydreamlive/scope"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-card border border-card-border hover:bg-card-hover transition-colors group"
@@ -150,14 +151,17 @@ function PlatformCard({ platform, index }: { platform: (typeof platforms)[0]; in
 
           {/* Status/Button */}
           {isAvailable ? (
-            <motion.button
+            <motion.a
+              href="https://github.com/daydreamlive/scope/tags"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-neutral-200 text-black font-medium transition-colors min-w-[140px]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <DownloadIcon className="w-4 h-4" />
               <span>Download</span>
-            </motion.button>
+            </motion.a>
           ) : (
             <span className="flex items-center justify-center px-6 py-3 rounded-xl bg-card-border/30 text-muted font-medium min-w-[140px]">
               Coming Soon

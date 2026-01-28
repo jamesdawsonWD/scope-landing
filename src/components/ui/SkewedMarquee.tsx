@@ -2,46 +2,11 @@
 
 import { motion } from 'framer-motion'
 
-type BentoTile = {
-  src: string
-  colSpan: number
-  rowSpan: 1 | 2 | 3
-}
-
-/**
- * A repeating "layout recipe" that packs perfectly into 3 rows.
- * Each "block" is 6 columns wide and fills all 3 rows with no gaps.
- * Order matters: place larger/taller tiles first so dense packing works correctly.
- */
-const LAYOUT_RECIPE: Array<Pick<BentoTile, 'colSpan' | 'rowSpan'>> = [
-  // Tall hero tile (2×3 = 6 cells)
-  { colSpan: 2, rowSpan: 3 },
-  // 2×2 block (4 cells)
-  { colSpan: 2, rowSpan: 2 },
-  // Two 1×2 tiles (2 cells each = 4 cells)
-  { colSpan: 1, rowSpan: 2 },
-  { colSpan: 1, rowSpan: 2 },
-  // Bottom row fills: 2×1 + two 1×1 (2 + 1 + 1 = 4 cells)
-  { colSpan: 2, rowSpan: 1 },
-  { colSpan: 1, rowSpan: 1 },
-  { colSpan: 1, rowSpan: 1 },
-]
-
-function buildTiles(videos: string[], repeatBlocks: number): BentoTile[] {
-  const tiles: BentoTile[] = []
-  let i = 0
-
-  for (let block = 0; block < repeatBlocks; block++) {
-    for (const shape of LAYOUT_RECIPE) {
-      tiles.push({
-        src: videos[i % videos.length],
-        colSpan: shape.colSpan,
-        rowSpan: shape.rowSpan,
-      })
-      i++
-    }
+function buildTiles(videos: string[], repeat: number): string[] {
+  const tiles: string[] = []
+  for (let i = 0; i < repeat; i++) {
+    tiles.push(...videos)
   }
-
   return tiles
 }
 
@@ -52,50 +17,50 @@ export function MarqueeBento({
   videos: string[]
   duration: number
 }) {
-  // Build enough blocks to cover wide screens; duplicated strip gives seamless loop.
+  // Build enough tiles to cover wide screens; duplicated strip gives seamless loop.
   const tiles = buildTiles(videos, 10)
 
+  // Slow down the animation (multiply duration by 4)
+  const slowDuration = duration * 2
+
   return (
-    <div className="overflow-hidden">
+    <div className="relative overflow-hidden">
       <motion.div
         className="flex"
         animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: slowDuration, repeat: Infinity, ease: 'linear' }}
         style={{
           willChange: 'transform',
         }}
       >
         {/* STRIP A */}
-        <BentoStrip tiles={tiles} />
+        <FlexStrip tiles={tiles} />
 
         {/* STRIP B (duplicate for seamless looping) */}
-        <BentoStrip tiles={tiles} />
+        <FlexStrip tiles={tiles} />
       </motion.div>
+
+      {/* Bottom gradient fade into background */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+        style={{
+          height: '40%',
+          background: 'linear-gradient(to bottom, transparent, var(--background))',
+        }}
+      />
     </div>
   )
 }
 
-function BentoStrip({ tiles }: { tiles: BentoTile[] }) {
+function FlexStrip({ tiles }: { tiles: string[] }) {
   return (
-    <div
-      className="grid gap-3 pr-6"
-      style={{
-        // 3 rows tall bento.
-        ['--rowH' as string]: 'clamp(90px, 10vw, 140px)',
-        ['--colW' as string]: 'clamp(90px, 9vw, 150px)',
-
-        gridTemplateRows: 'repeat(3, var(--rowH))',
-        gridAutoColumns: 'var(--colW)',
-
-        // Key: dense packing tries to fill holes left by spanning tiles.
-        gridAutoFlow: 'column dense',
-      }}
-    >
-      {tiles.map((t, idx) => (
+    <div className="flex gap-3 pr-6">
+      {tiles.map((src, idx) => (
         <div
-          key={`${t.src}-${idx}`}
+          key={`${src}-${idx}`}
           className="
             relative
+            flex-shrink-0
             overflow-hidden
             rounded-2xl
             bg-background
@@ -103,12 +68,12 @@ function BentoStrip({ tiles }: { tiles: BentoTile[] }) {
             shadow-[0_20px_60px_rgba(0,0,0,0.45)]
           "
           style={{
-            gridColumn: `span ${t.colSpan}`,
-            gridRow: `span ${t.rowSpan}`,
+            width: 'clamp(220px, 22vw, 360px)',
+            height: 'clamp(280px, 32vw, 450px)',
           }}
         >
           <video
-            src={t.src}
+            src={src}
             autoPlay
             loop
             muted

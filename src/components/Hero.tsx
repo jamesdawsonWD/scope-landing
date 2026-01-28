@@ -53,8 +53,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
         >
-          <span className="block">Explore the future </span>
-          <span className="gradient-text">of realtime AI</span>
+          <span className="block">The open stack for</span>
+          <span className="gradient-text">real-time generative AI</span>
         </motion.h1>
 
         {/* Description */}
@@ -64,8 +64,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12"
         >
-          Scope is an open source and local-first tool for running and customizing 
-          real-time interactive video and world models. Remote inference coming soon.
+          The tools, APIs, and community to build interactive AI experiences — from video to games and beyond.
         </motion.p>
 
         {/* CTA Buttons */}

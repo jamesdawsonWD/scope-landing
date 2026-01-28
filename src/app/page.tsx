@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
+import Models from '@/components/Models'
 import Features from '@/components/Features'
 import WorkflowGallery from '@/components/WorkflowGallery'
 import Download from '@/components/Download'
-import LearnSection from '@/components/LearnSection'
 import Community from '@/components/Community'
 import Footer from '@/components/Footer'
 
@@ -20,6 +20,7 @@ export default function Home() {
     >
       <Navigation />
       <Hero />
+      <Models />
       <Features />
       <WorkflowGallery />
       <Download />

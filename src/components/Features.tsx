@@ -21,12 +21,12 @@ export default function Features() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Open-source tools for
+            Breakthrough Capabilities.
             <br />
-            <span className="gradient-text">video world models</span>
+            <span className="gradient-text">Creative Freedom.</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Everything you need to create, customize, and deploy real-time video generation.
+            Open tooling with state-of-the-art models, real-time control, and community-driven innovation.
           </p>
         </motion.div>
 
@@ -59,10 +59,10 @@ export default function Features() {
                 
                 <div className="mt-auto">
                   <h3 className="text-2xl lg:text-3xl font-bold mb-3 group-hover:text-white transition-colors">
-                    Real-time results and control
+                    Groundbreaking Creative Control
                   </h3>
                   <p className="text-muted leading-relaxed text-base lg:text-lg">
-                    Unlock the best capabilities of open weight models through high controllability - from LoRAs to ControlNets to director-style timeline configuration.
+                    VACE for inpainting and editing, LoRAs and ControlNets for output conditioning, director-style timeline config for storytelling, and composable plugins to build unique workflows.
                   </p>
                 </div>
               </div>
@@ -93,10 +93,10 @@ export default function Features() {
                 </div>
                 
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors">
-                  Remote Inference
+                  Flexible API
                 </h3>
                 <p className="text-muted text-sm">
-                  No GPU? No problem. Connect Scope to the Daydream API.
+                  Your real-time AI video pipelines, hosted on infrastructure purpose-built for video streaming.
                 </p>
               </div>
             </div>
@@ -118,10 +118,10 @@ export default function Features() {
                 </div>
                 
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition-colors">
-                  SOTA Models
+                  Custom Pipelines
                 </h3>
                 <p className="text-muted text-sm leading-relaxed">
-                  Krea Real-Time, LongLive, StreamDiffusionV2 and more.
+                  Waypoint-1, Krea Real-Time, LongLive, MemFlow, and more.
                 </p>
               </div>
               

@@ -87,7 +87,7 @@ export default function Navigation() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <motion.a
-              href="https://github.com"
+              href="https://github.com/daydreamlive/scope"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg hover:bg-white/5 transition-colors"

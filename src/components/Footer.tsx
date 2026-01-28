@@ -5,22 +5,22 @@ import { Github, Twitter, MessageCircle } from 'lucide-react'
 
 const footerLinks = {
   Product: [
-    { label: 'Download', href: '#download' },
+    { label: 'Download', href: 'https://github.com/daydreamlive/scope/tags' },
     { label: 'Features', href: '#features' },
     { label: 'Workflows', href: '#workflows' },
-    { label: 'Documentation', href: '#' },
+    { label: 'Documentation', href: 'https://docs.daydream.live/' },
   ],
   Community: [
     { label: 'Discord', href: '#' },
     { label: 'Twitter', href: '#' },
-    { label: 'GitHub', href: '#' },
-    { label: 'Blog', href: '#' },
+    { label: 'GitHub', href: 'https://github.com/daydreamlive/scope' },
+    { label: 'Discover', href: 'https://app.daydream.live/' },
   ],
   Resources: [
-    { label: 'Getting Started', href: '#' },
-    { label: 'API Reference', href: '#' },
-    { label: 'Examples', href: '#' },
-    { label: 'Changelog', href: '#' },
+    { label: 'Getting Started', href: 'https://docs.daydream.live/' },
+    { label: 'Learn', href: 'https://docs.daydream.live/' },
+    { label: 'Examples', href: 'https://app.daydream.live/' },
+    { label: 'Changelog', href: 'https://github.com/daydreamlive/scope/tags' },
   ],
   Company: [
     { label: 'About', href: '#' },
@@ -31,7 +31,7 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Github, href: '#', label: 'GitHub' },
+  { icon: Github, href: 'https://github.com/daydreamlive/scope', label: 'GitHub' },
   { icon: Twitter, href: '#', label: 'Twitter' },
   { icon: MessageCircle, href: '#', label: 'Discord' },
 ]

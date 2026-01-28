@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { Share2, Users } from 'lucide-react'
+import { Compass } from 'lucide-react'
 import { useRef } from 'react'
 
 // Discord Icon
@@ -41,9 +41,9 @@ export default function Community() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
             >
-              Build with the 
+              Connect and create with the
               <br />
-              <span className="gradient-text">Scope community</span>
+              <span className="gradient-text">Daydream community</span>
             </motion.h2>
 
             {/* Description */}
@@ -63,26 +63,24 @@ export default function Community() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <motion.a
-                href="#workflows"
+              <a
+                href="https://app.daydream.live/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-primary flex items-center gap-2 px-8 py-4"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
-                <Share2 className="w-5 h-5" />
-                <span>Share your workflow</span>
-              </motion.a>
-              <motion.a
+                <Compass className="w-5 h-5" />
+                <span>Discover</span>
+              </a>
+              <a
                 href="https://discord.gg/QXk48Jve"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary flex items-center gap-2 px-8 py-4"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <DiscordIcon className="w-5 h-5" />
-                <span>Join the community</span>
-              </motion.a>
+                <span>Join Community</span>
+              </a>
             </motion.div>
           </div>
         </motion.div>
