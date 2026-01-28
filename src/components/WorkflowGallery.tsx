@@ -43,9 +43,9 @@ const workflows = [
     colSpan: 2,
   },
   {
-    title: 'Realtime Visuals w/ VACE + Depth Map',
+    title: 'Origami Christmas Vibes',
     video: '/videos/video-5.mp4',
-    link: 'https://app.daydream.live/creators/ericxtang/vace-depth-map-experiment',
+    link: 'https://app.daydream.live/creators/viborc/origami-christmas-vibes',
     colSpan: 1,
   },
 ]

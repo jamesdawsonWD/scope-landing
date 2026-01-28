@@ -266,6 +266,14 @@ function ModelCard({
     }
   }, [isActive, model.video])
 
+  const handleCardClick = () => {
+    if (isActive) {
+      window.open(model.link, '_blank', 'noopener,noreferrer')
+    } else {
+      onClick()
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -277,7 +285,7 @@ function ModelCard({
         duration: 0.5, 
         delay: index * 0.1,
       }}
-      onClick={onClick}
+      onClick={handleCardClick}
       className="group block flex-shrink-0 w-[500px] cursor-pointer"
     >
       <div className={`relative h-[360px] rounded-2xl bg-card border overflow-hidden transition-all duration-300 ${
