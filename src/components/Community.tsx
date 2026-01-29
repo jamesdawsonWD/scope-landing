@@ -13,15 +13,246 @@ function DiscordIcon({ className }: { className?: string }) {
   )
 }
 
+// All available videos - 4 rows
+const row1Videos = [
+  '/videos/video-1.mp4',
+  '/videos/video-2.mp4',
+  '/videos/video-3.mp4',
+  '/videos/video-4.mp4',
+  '/videos/video-5.mp4',
+]
+
+const row2Videos = [
+  '/videos/video-6.mp4',
+  '/videos/video-7.mp4',
+  '/videos/streamdiffusion-demo.mp4',
+  '/videos/longlive-demo.mp4',
+  '/videos/video-2.mp4',
+]
+
+const row3Videos = [
+  '/videos/video-3.mp4',
+  '/videos/video-5.mp4',
+  '/videos/video-1.mp4',
+  '/videos/video-7.mp4',
+  '/videos/video-4.mp4',
+]
+
+const row4Videos = [
+  '/videos/video-6.mp4',
+  '/videos/streamdiffusion-demo.mp4',
+  '/videos/video-2.mp4',
+  '/videos/longlive-demo.mp4',
+  '/videos/video-5.mp4',
+]
+
+// Video card with perspective tilt - gets smaller toward center
+function PerspectiveVideo({ 
+  src, 
+  poster,
+  index, 
+  totalCount,
+  side,
+  row,
+}: { 
+  src: string
+  poster: string
+  index: number
+  totalCount: number
+  side: 'left' | 'right'
+  row: 'top' | 'bottom'
+}) {
+  // Reverse the index so 0 is at the edge, higher is toward center
+  const distanceFromEdge = index
+  const distanceFromCenter = totalCount - 1 - index
+  
+  // Scale decreases toward center (closer to center = smaller)
+  const scale = 1 - (distanceFromEdge * 0.12)
+  // Blur increases toward center
+  const blur = distanceFromEdge * 1.5
+  // Opacity decreases toward center
+  const opacity = 1 - (distanceFromEdge * 0.15)
+  // Rotation - cards tilt toward center (facing inward)
+  const rotateY = side === 'left' ? -(15 + (distanceFromEdge * 8)) : (15 + (distanceFromEdge * 8))
+  // Vertical offset for depth - converge toward center
+  const translateY = row === 'top' ? (distanceFromEdge * 6) : -(distanceFromEdge * 6)
+  
+  // Base size - outer cards are bigger
+  const baseWidth = 180 - (distanceFromEdge * 25)
+  const baseHeight = 110 - (distanceFromEdge * 15)
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: opacity, scale: scale }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: distanceFromCenter * 0.08 }}
+      className="flex-shrink-0 rounded-xl overflow-hidden"
+      style={{
+        width: `${baseWidth}px`,
+        height: `${baseHeight}px`,
+        transform: `perspective(1000px) rotateY(${rotateY}deg) translateY(${translateY}px)`,
+        filter: `blur(${blur}px)`,
+        zIndex: totalCount - distanceFromEdge,
+      }}
+    >
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster={poster}
+        className="w-full h-full object-cover"
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+    </motion.div>
+  )
+}
+
 export default function Community() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
     <section id="community" className="py-32 relative overflow-hidden" ref={ref}>
-      {/* Background */}
+      {/* Video Rows Container */}
+      <div className="absolute inset-0 flex flex-col justify-center items-center pointer-events-none gap-1">
+        {/* Row 1 - Top */}
+        <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-end flex-1 gap-1">
+            {row1Videos.map((video, index) => (
+              <PerspectiveVideo
+                key={`row1-left-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={index}
+                totalCount={row1Videos.length}
+                side="left"
+                row="top"
+              />
+            ))}
+          </div>
+          <div className="w-[400px] flex-shrink-0" />
+          <div className="flex items-center justify-start flex-1 gap-1">
+            {[...row1Videos].reverse().map((video, index) => (
+              <PerspectiveVideo
+                key={`row1-right-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={row1Videos.length - 1 - index}
+                totalCount={row1Videos.length}
+                side="right"
+                row="top"
+              />
+            ))}
+          </div>
+        </div>
 
-      <div className="max-w-5xl mx-auto px-6 relative">
+        {/* Row 2 */}
+        <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-end flex-1 gap-1">
+            {row2Videos.map((video, index) => (
+              <PerspectiveVideo
+                key={`row2-left-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={index}
+                totalCount={row2Videos.length}
+                side="left"
+                row="top"
+              />
+            ))}
+          </div>
+          <div className="w-[400px] flex-shrink-0" />
+          <div className="flex items-center justify-start flex-1 gap-1">
+            {[...row2Videos].reverse().map((video, index) => (
+              <PerspectiveVideo
+                key={`row2-right-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={row2Videos.length - 1 - index}
+                totalCount={row2Videos.length}
+                side="right"
+                row="top"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Row 3 */}
+        <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-end flex-1 gap-1">
+            {row3Videos.map((video, index) => (
+              <PerspectiveVideo
+                key={`row3-left-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={index}
+                totalCount={row3Videos.length}
+                side="left"
+                row="bottom"
+              />
+            ))}
+          </div>
+          <div className="w-[400px] flex-shrink-0" />
+          <div className="flex items-center justify-start flex-1 gap-1">
+            {[...row3Videos].reverse().map((video, index) => (
+              <PerspectiveVideo
+                key={`row3-right-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={row3Videos.length - 1 - index}
+                totalCount={row3Videos.length}
+                side="right"
+                row="bottom"
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Row 4 - Bottom */}
+        <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-end flex-1 gap-1">
+            {row4Videos.map((video, index) => (
+              <PerspectiveVideo
+                key={`row4-left-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={index}
+                totalCount={row4Videos.length}
+                side="left"
+                row="bottom"
+              />
+            ))}
+          </div>
+          <div className="w-[400px] flex-shrink-0" />
+          <div className="flex items-center justify-start flex-1 gap-1">
+            {[...row4Videos].reverse().map((video, index) => (
+              <PerspectiveVideo
+                key={`row4-right-${index}`}
+                src={video}
+                poster={video.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+                index={row4Videos.length - 1 - index}
+                totalCount={row4Videos.length}
+                side="right"
+                row="bottom"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Radial gradient overlay - completely black in center */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 50% 60% at 50% 50%, rgba(10,10,11,1) 0%, rgba(10,10,11,1) 40%, rgba(10,10,11,0.9) 60%, rgba(10,10,11,0.5) 75%, transparent 100%)',
+        }}
+      />
+
+      {/* Content */}
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         {/* Main CTA Card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -29,11 +260,7 @@ export default function Community() {
           transition={{ duration: 0.8 }}
           className="relative rounded-3xl overflow-hidden"
         >
-          {/* Card background with gradient border */}
-          <div className="absolute inset-[1px] rounded-3xl " />
-
           <div className="relative p-12 md:p-16 text-center">
-  
             {/* Heading */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -41,9 +268,9 @@ export default function Community() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
             >
-              Connect and create with the
+              Join the real-time
               <br />
-              <span className="gradient-text">Daydream community</span>
+              <span className="gradient-text">AI video community</span>
             </motion.h2>
 
             {/* Description */}

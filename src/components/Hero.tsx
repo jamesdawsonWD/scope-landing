@@ -78,13 +78,17 @@ export default function Hero() {
             href="#download"
             className="btn-primary flex items-center gap-2 text-lg px-8 py-4"
           >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             <span>Download</span>
           </a>
           <a
-            href="#workflows"
+            href="https://docs.daydream.live/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-secondary flex items-center gap-2 text-lg px-8 py-4"
           >
             <Play className="w-5 h-5" />
