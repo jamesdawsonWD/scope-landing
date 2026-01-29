@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { Trophy } from 'lucide-react'
 import Image from 'next/image'
+import { ExternalVideo } from './ui/LazyVideo'
 
 // Discord Icon
 function DiscordIcon({ className }: { className?: string }) {
@@ -222,18 +223,10 @@ export default function DaydreamProgram() {
               className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 w-full"
             >
               <div className="aspect-video relative">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
+                <ExternalVideo
+                  src="https://framerusercontent.com/assets/Tp3NR1MomsQxNmIJKTUwpXRur7w.mp4"
                   className="w-full h-full object-cover"
-                >
-                  <source 
-                    src="https://framerusercontent.com/assets/Tp3NR1MomsQxNmIJKTUwpXRur7w.mp4" 
-                    type="video/mp4" 
-                  />
-                </video>
+                />
                 {/* Gradient overlays */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-[var(--background)]/50" />
               </div>

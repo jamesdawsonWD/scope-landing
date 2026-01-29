@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
+import { ExternalVideo } from './ui/LazyVideo'
 
 export default function ProductShowcase() {
   const ref = useRef(null)
@@ -40,20 +41,10 @@ export default function ProductShowcase() {
           
           {/* Video wrapper */}
           <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/50">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
+            <ExternalVideo
+              src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4"
               className="w-full h-auto"
-              poster=""
-            >
-              <source 
-                src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4" 
-                type="video/mp4" 
-              />
-              Your browser does not support the video tag.
-            </video>
+            />
           </div>
         </motion.div>
       </div>

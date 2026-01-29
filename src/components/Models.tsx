@@ -3,7 +3,6 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef, useState, useEffect, useCallback } from 'react'
-import { LazyVideo } from './ui/LazyVideo'
 
 const models = [
   {
@@ -56,6 +55,8 @@ export default function Models() {
   const ref = useRef(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  // Track if section is currently visible (not once, continuous)
+  const sectionVisible = useInView(ref, { margin: '0px' })
   const [activeIndex, setActiveIndex] = useState(0)
   const [progress, setProgress] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
@@ -161,6 +162,7 @@ export default function Models() {
                   model={model} 
                   index={index} 
                   isActive={index === activeIndex}
+                  sectionVisible={sectionVisible}
                   onClick={() => scrollToIndex(index)}
                 />
               ))}
@@ -246,20 +248,24 @@ function ModelCard({
   model, 
   index, 
   isActive,
+  sectionVisible,
   onClick 
 }: { 
   model: (typeof models)[0]
   index: number
   isActive: boolean
+  sectionVisible: boolean
   onClick: () => void
 }) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Play/pause video based on active state - only load video when active
+  // Play/pause video based on active state AND section visibility
   useEffect(() => {
     if (videoRef.current && model.video) {
-      if (isActive) {
-        // Load and play video when active
+      const shouldPlay = isActive && sectionVisible
+      
+      if (shouldPlay) {
+        // Load and play video when active and section is visible
         if (!videoRef.current.src || !videoRef.current.src.includes(model.video)) {
           videoRef.current.src = model.video
           videoRef.current.load()
@@ -267,10 +273,12 @@ function ModelCard({
         videoRef.current.play().catch(() => {})
       } else {
         videoRef.current.pause()
-        videoRef.current.currentTime = 0
+        if (!isActive) {
+          videoRef.current.currentTime = 0
+        }
       }
     }
-  }, [isActive, model.video])
+  }, [isActive, sectionVisible, model.video])
 
   const handleCardClick = () => {
     if (isActive) {

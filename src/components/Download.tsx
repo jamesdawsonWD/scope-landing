@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { ExternalVideo } from './ui/LazyVideo'
 
 // Windows Logo SVG
 function WindowsIcon({ className }: { className?: string }) {
@@ -179,18 +180,10 @@ export default function Download() {
             <div className="flex flex-col md:flex-row">
               {/* Video Section */}
               <div className="relative w-full md:w-1/2 h-64 md:h-auto overflow-hidden">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
+                <ExternalVideo
+                  src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4"
                   className="w-full h-full object-cover"
-                >
-                  <source 
-                    src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4" 
-                    type="video/mp4" 
-                  />
-                </video>
+                />
                 {/* Gradient overlays */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-card md:block hidden" />
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent md:hidden" />
@@ -270,18 +263,11 @@ export default function Download() {
         <DialogContent className="p-0 gap-0 overflow-hidden max-w-lg">
           {/* Video with gradient fades */}
           <div className="relative h-48 overflow-hidden">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
+            <ExternalVideo
+              src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4"
               className="w-full h-full object-cover"
-            >
-              <source 
-                src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4" 
-                type="video/mp4" 
-              />
-            </video>
+              paused={!isModalOpen}
+            />
             {/* Gradient fade at bottom */}
             <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
             {/* Gradient fade at top */}

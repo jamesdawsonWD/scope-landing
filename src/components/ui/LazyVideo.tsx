@@ -1,33 +1,45 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
-interface LazyVideoProps {
+interface OptimizedVideoProps {
   src: string
   poster?: string
   className?: string
-  autoPlay?: boolean
   loop?: boolean
   muted?: boolean
   playsInline?: boolean
+  /** If true, video loads immediately without lazy loading (use for hero/above-fold content) */
+  priority?: boolean
+  /** External control to pause video */
+  paused?: boolean
 }
 
-export function LazyVideo({
+/**
+ * Optimized video component that:
+ * - Lazy loads videos when they approach the viewport
+ * - Pauses videos when they leave the viewport (memory optimization)
+ * - Resumes videos when they re-enter the viewport
+ * - Supports priority loading for above-fold content
+ */
+export function OptimizedVideo({
   src,
   poster,
   className = '',
-  autoPlay = true,
   loop = true,
   muted = true,
   playsInline = true,
-}: LazyVideoProps) {
+  priority = false,
+  paused = false,
+}: OptimizedVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isInView, setIsInView] = useState(false)
+  const [isInView, setIsInView] = useState(priority)
   const [hasLoaded, setHasLoaded] = useState(false)
 
   // Generate poster path from video src if not provided
   const posterSrc = poster || src.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')
 
+  // Intersection observer for lazy loading AND play/pause control
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
@@ -35,10 +47,7 @@ export function LazyVideo({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsInView(true)
-            observer.disconnect()
-          }
+          setIsInView(entry.isIntersecting)
         })
       },
       {
@@ -52,26 +61,32 @@ export function LazyVideo({
     return () => observer.disconnect()
   }, [])
 
+  // Handle video loading when it comes into view
   useEffect(() => {
     const video = videoRef.current
-    if (!video || !isInView) return
+    if (!video) return
 
-    // Set the src and load the video
-    video.src = src
-    video.load()
-
-    const handleCanPlay = () => {
+    if (isInView && !hasLoaded) {
+      // Load the video source
+      video.src = src
+      video.load()
       setHasLoaded(true)
-      if (autoPlay) {
-        video.play().catch(() => {
-          // Autoplay was prevented, that's okay
-        })
-      }
     }
+  }, [isInView, hasLoaded, src])
 
-    video.addEventListener('canplay', handleCanPlay)
-    return () => video.removeEventListener('canplay', handleCanPlay)
-  }, [isInView, src, autoPlay])
+  // Handle play/pause based on visibility and external control
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !hasLoaded) return
+
+    if (isInView && !paused) {
+      video.play().catch(() => {
+        // Autoplay was prevented, that's okay
+      })
+    } else {
+      video.pause()
+    }
+  }, [isInView, hasLoaded, paused])
 
   return (
     <video
@@ -81,7 +96,7 @@ export function LazyVideo({
       loop={loop}
       muted={muted}
       playsInline={playsInline}
-      preload="none"
+      preload={priority ? 'auto' : 'none'}
       style={{
         backgroundColor: '#0a0a0a', // Fallback color while loading
       }}
@@ -89,39 +104,37 @@ export function LazyVideo({
   )
 }
 
-// For the hero marquee - priority videos load immediately, others lazy load
-export function MarqueeVideo({
+/**
+ * Video component for external URLs (like framerusercontent)
+ * These can't use the same poster generation logic
+ */
+export function ExternalVideo({
   src,
+  poster,
   className = '',
+  loop = true,
+  muted = true,
+  playsInline = true,
   priority = false,
-}: {
-  src: string
-  className?: string
-  priority?: boolean
-}) {
+  paused = false,
+}: OptimizedVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [shouldLoad, setShouldLoad] = useState(priority)
+  const [isInView, setIsInView] = useState(priority)
+  const [hasLoaded, setHasLoaded] = useState(priority)
 
-  const posterSrc = src.replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')
-
+  // Intersection observer for play/pause control
   useEffect(() => {
-    // Priority videos load immediately, skip observer
-    if (priority) return
-
     const video = videoRef.current
     if (!video) return
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShouldLoad(true)
-            observer.disconnect()
-          }
+          setIsInView(entry.isIntersecting)
         })
       },
       {
-        rootMargin: '200px',
+        rootMargin: '100px',
         threshold: 0,
       }
     )
@@ -129,26 +142,49 @@ export function MarqueeVideo({
     observer.observe(video)
 
     return () => observer.disconnect()
-  }, [priority])
+  }, [])
 
+  // Handle video loading when it comes into view (for non-priority)
   useEffect(() => {
-    if (shouldLoad && videoRef.current) {
-      videoRef.current.src = src
-      videoRef.current.load()
-      videoRef.current.play().catch(() => {})
+    const video = videoRef.current
+    if (!video || priority) return
+
+    if (isInView && !hasLoaded) {
+      video.src = src
+      video.load()
+      setHasLoaded(true)
     }
-  }, [shouldLoad, src])
+  }, [isInView, hasLoaded, src, priority])
+
+  // Handle play/pause based on visibility
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !hasLoaded) return
+
+    if (isInView && !paused) {
+      video.play().catch(() => {})
+    } else {
+      video.pause()
+    }
+  }, [isInView, hasLoaded, paused])
 
   return (
     <video
       ref={videoRef}
-      poster={posterSrc}
+      src={priority ? src : undefined}
+      poster={poster}
       className={className}
-      loop
-      muted
-      playsInline
+      loop={loop}
+      muted={muted}
+      playsInline={playsInline}
       preload={priority ? 'auto' : 'none'}
-      style={{ backgroundColor: '#0a0a0a' }}
+      style={{
+        backgroundColor: '#0a0a0a',
+      }}
     />
   )
 }
+
+// Legacy exports for backwards compatibility
+export { OptimizedVideo as LazyVideo }
+export { OptimizedVideo as MarqueeVideo }

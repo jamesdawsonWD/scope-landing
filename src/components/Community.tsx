@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { Compass } from 'lucide-react'
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 // Discord Icon
 function DiscordIcon({ className }: { className?: string }) {
@@ -47,6 +47,7 @@ const row4Videos = [
 ]
 
 // Video card with perspective tilt - gets smaller toward center
+// Includes lazy loading and play/pause based on visibility
 function PerspectiveVideo({ 
   src, 
   poster,
@@ -62,6 +63,11 @@ function PerspectiveVideo({
   side: 'left' | 'right'
   row: 'top' | 'bottom'
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isInView, setIsInView] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false)
+
   // Reverse the index so 0 is at the edge, higher is toward center
   const distanceFromEdge = index
   const distanceFromCenter = totalCount - 1 - index
@@ -81,8 +87,52 @@ function PerspectiveVideo({
   const baseWidth = 180 - (distanceFromEdge * 25)
   const baseHeight = 110 - (distanceFromEdge * 15)
 
+  // Intersection observer for lazy loading and play/pause
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting)
+        })
+      },
+      {
+        rootMargin: '100px',
+        threshold: 0,
+      }
+    )
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [])
+
+  // Load video when in view
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !isInView || hasLoaded) return
+
+    video.src = src
+    video.load()
+    setHasLoaded(true)
+  }, [isInView, hasLoaded, src])
+
+  // Play/pause based on visibility
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !hasLoaded) return
+
+    if (isInView) {
+      video.play().catch(() => {})
+    } else {
+      video.pause()
+    }
+  }, [isInView, hasLoaded])
+
   return (
     <motion.div
+      ref={containerRef}
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: opacity, scale: scale }}
       viewport={{ once: true }}
@@ -97,15 +147,15 @@ function PerspectiveVideo({
       }}
     >
       <video
-        autoPlay
+        ref={videoRef}
         loop
         muted
         playsInline
         poster={poster}
+        preload="none"
         className="w-full h-full object-cover"
-      >
-        <source src={src} type="video/mp4" />
-      </video>
+        style={{ backgroundColor: '#0a0a0a' }}
+      />
     </motion.div>
   )
 }
