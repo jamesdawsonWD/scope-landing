@@ -5,11 +5,12 @@ import Navigation from '@/components/Navigation'
 import Hero from '@/components/Hero'
 import ProductShowcase from '@/components/ProductShowcase'
 import Models from '@/components/Models'
+import UseCases from '@/components/UseCases'
 import Features from '@/components/Features'
 import WorkflowGallery from '@/components/WorkflowGallery'
 import Download from '@/components/Download'
-import DaydreamProgram from '@/components/DaydreamProgram'
 import Community from '@/components/Community'
+import VisionClose from '@/components/VisionClose'
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -23,12 +24,13 @@ export default function Home() {
       <Navigation />
       <Hero />
       <ProductShowcase />
-      <Features />
       <Models />
+      <UseCases />
+      <Features />
       <WorkflowGallery />
       <Download />
-      <DaydreamProgram />
       <Community />
+      <VisionClose />
       <Footer />
     </motion.main>
   )

@@ -21,12 +21,12 @@ export default function Features() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Breakthrough Capabilities.
+            What makes Scope
             <br />
-            <span className="gradient-text">Creative Freedom.</span>
+            <span className="gradient-text">different.</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Open tooling with state-of-the-art models, real-time control, and community-driven innovation.
+            Open source, local-first, and built for people who want actual control over real-time AI video.
           </p>
         </motion.div>
 
@@ -59,7 +59,7 @@ export default function Features() {
                 
                 <div className="mt-auto">
                   <h3 className="text-2xl lg:text-3xl font-bold mb-3 group-hover:text-white transition-colors">
-                    Groundbreaking Creative Control
+                    Full creative control
                   </h3>
                   <p className="text-muted leading-relaxed text-base lg:text-lg">
                     VACE for inpainting and editing, LoRAs and ControlNets for output conditioning, director-style timeline config for storytelling, and composable plugins to build unique workflows.

@@ -55,7 +55,7 @@ export default function DaydreamProgram() {
     <section 
       ref={containerRef}
       id="program" 
-      className="relative overflow-hidden"
+      className="relative overflow-hidden pt-32"
       style={{ minHeight: '250vh' }}
     >
       {/* Background gradient orbs */}

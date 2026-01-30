@@ -131,12 +131,12 @@ export default function Models() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Realtime models
+            Run the latest models
             <br />
-            <span className="gradient-text">at your fingertips</span>
+            <span className="gradient-text">the day they drop</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Access state-of-the-art video and world models, optimized for real-time performance and creative control.
+            World models, video diffusion, real-time style transfer. New models ship in Scope as fast as they come out.
           </p>
         </motion.div>
 

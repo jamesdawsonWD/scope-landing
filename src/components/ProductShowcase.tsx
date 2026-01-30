@@ -1,12 +1,24 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { ExternalVideo } from './ui/LazyVideo'
+import { useRef, useEffect } from 'react'
 
 export default function ProductShowcase() {
   const ref = useRef(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const sectionVisible = useInView(ref, { margin: '0px' })
+
+  // Play/pause video based on section visibility
+  useEffect(() => {
+    if (videoRef.current) {
+      if (sectionVisible) {
+        videoRef.current.play().catch(() => {})
+      } else {
+        videoRef.current.pause()
+      }
+    }
+  }, [sectionVisible])
 
   return (
     <section ref={ref} className="py-24 relative overflow-hidden">
@@ -41,9 +53,15 @@ export default function ProductShowcase() {
           
           {/* Video wrapper */}
           <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/50">
-            <ExternalVideo
-              src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4"
+            <video
+              ref={videoRef}
+              src="/videos/video-8.mp4"
+              muted
+              loop
+              playsInline
+              preload="metadata"
               className="w-full h-auto"
+              style={{ backgroundColor: '#0a0a0a' }}
             />
           </div>
         </motion.div>

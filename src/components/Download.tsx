@@ -83,8 +83,7 @@ export default function Download() {
             Get Started with <span className="gradient-text">Scope</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            An open source and local-first tool for running and customizing real-time interactive video models. 
-            Choose the option that works best for your setup.
+            Open source and local-first. Install it, pick a model, point it at a video source, hit play. Up and running in minutes, not hours.
           </p>
         </motion.div>
 

@@ -53,8 +53,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
         >
-          <span className="block">The open stack for</span>
-          <span className="gradient-text">real-time generative AI</span>
+          <span className="gradient-text">Real-time AI video</span>
+          <span className="block">starts here.</span>
         </motion.h1>
 
         {/* Description */}
@@ -64,7 +64,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12"
         >
-          The tools, APIs, and community to build interactive AI experiences — from video to games and beyond.
+          The open-source tool for running, remixing, and building with AI video models, live. No batch renders. No waiting. Just hit play.
         </motion.p>
 
         {/* CTA Buttons */}

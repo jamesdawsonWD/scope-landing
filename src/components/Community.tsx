@@ -318,9 +318,9 @@ export default function Community() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
             >
-              Join the real-time
+              The only home for
               <br />
-              <span className="gradient-text">AI video community</span>
+              <span className="gradient-text">real-time AI video</span>
             </motion.h2>
 
             {/* Description */}
@@ -328,10 +328,21 @@ export default function Community() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-muted max-w-xl mx-auto mb-10"
+              className="text-lg text-muted max-w-2xl mx-auto mb-6"
             >
-              Join creatives, builders, and researchers advancing the frontier.
+              3,000+ creators, researchers, and builders are figuring out this medium together. Weekly workshops, downloadable projects, and a creative lab with mentorship. The information for real-time AI video didn&apos;t exist in one place before. Now it does.
             </motion.p>
+
+            {/* Testimonial */}
+            <motion.blockquote
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="text-white/70 italic max-w-xl mx-auto mb-10 text-base"
+            >
+              &ldquo;Daydream is the only space where there&apos;s information, tutorials, and projects for real-time video AI.&rdquo;
+              <span className="block mt-2 text-white/40 not-italic text-sm">— Community member</span>
+            </motion.blockquote>
 
             {/* CTA Buttons */}
             <motion.div
