@@ -215,15 +215,6 @@ function CyclingVideo({
           />
         </div>
       </motion.div>
-      
-      {/* Gradient fade toward center */}
-      <div 
-        className={`absolute inset-0 pointer-events-none rounded-2xl ${
-          side === 'left' 
-            ? 'bg-gradient-to-l from-background via-background/60 to-transparent' 
-            : 'bg-gradient-to-r from-background via-background/60 to-transparent'
-        }`}
-      />
     </div>
   )
 }
