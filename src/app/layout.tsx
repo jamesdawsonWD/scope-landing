@@ -14,10 +14,10 @@ const siteUrl = 'https://scope.livepeer.cloud'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Scope - Free Open Source Real-Time AI Video Generator',
+    default: 'Scope - Real-Time AI Video Starts Here',
     template: '%s | Scope',
   },
-  description: 'Generate AI video in real-time with no batch rendering. Free, open source desktop app for live AI effects, world models, and interactive video. Runs locally on your GPU.',
+  description: 'The open-source tool for running, remixing, and building with AI video models, live. No batch renders. No waiting. Just hit play.',
   keywords: [
     'real-time AI video generator',
     'live AI video',
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Scope',
-    title: 'Scope - Free Open Source Real-Time AI Video Generator',
-    description: 'Generate AI video in real-time with no batch rendering. Free desktop app for live AI effects and world models. Download for Windows, Mac, or Linux.',
+    title: 'Scope - Real-Time AI Video Starts Here',
+    description: 'The open-source tool for running, remixing, and building with AI video models, live. No batch renders. No waiting. Just hit play.',
     images: [
       {
         url: '/og-image.jpg',
@@ -63,8 +63,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Scope - Free Open Source Real-Time AI Video Generator',
-    description: 'Generate AI video in real-time. No batch rendering, no waiting. Free and open source.',
+    title: 'Scope - Real-Time AI Video Starts Here',
+    description: 'The open-source tool for running, remixing, and building with AI video models, live. No batch renders. No waiting. Just hit play.',
     images: ['/og-image.jpg'],
     creator: '@Livepeer',
     site: '@Livepeer',

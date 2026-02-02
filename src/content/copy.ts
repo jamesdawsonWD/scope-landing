@@ -47,9 +47,9 @@ export const siteMetadata = {
 // =============================================================================
 export const hero = {
   badge: 'Scope v0.1.0-beta.3',
-  heading: 'Free Real-Time<br>AI Video Generator',
+  heading: 'Real-time AI video<br>starts here.',
   tagline: 'Open Source. Runs Locally.',
-  description: 'Generate and transform <highlight>AI video in real-time</highlight> with <highlight>Scope</highlight>. Run the latest AI models like Waypoint, Krea, and LongLive on your own GPU.',
+  description: 'The open-source tool for running, remixing, and building with <highlight>AI video models</highlight>, live. No batch renders. No waiting. Just hit play.',
   cta: {
     primary: {
       label: 'Download',

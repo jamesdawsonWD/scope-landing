@@ -57,7 +57,6 @@ export default function Hero() {
           className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
         >
           <span className="gradient-text">{renderText(hero.heading)}</span>
-          <span className="block text-3xl md:text-md lg:text-xl mt-2 text-white/90 font-semibold">{hero.tagline}</span>
         </motion.h1>
 
         {/* Description - keyword-rich intro paragraph */}

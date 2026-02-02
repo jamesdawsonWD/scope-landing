@@ -27,11 +27,11 @@ export default function Home() {
       <SectionTracker section="hero">
         <Hero />
       </SectionTracker>
-      <SectionTracker section="realtime-showcase">
-        <RealTimeShowcase />
-      </SectionTracker>
       <SectionTracker section="models">
         <Models />
+      </SectionTracker>
+      <SectionTracker section="realtime-showcase">
+        <RealTimeShowcase />
       </SectionTracker>
       <SectionTracker section="use-cases">
         <UseCases />
