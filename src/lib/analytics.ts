@@ -291,9 +291,9 @@ export function trackPagePerformance() {
         dns_time: timing.domainLookupEnd - timing.domainLookupStart,
         connection_time: timing.connectEnd - timing.connectStart,
         ttfb: timing.responseStart - timing.requestStart,
-        dom_interactive: timing.domInteractive - timing.navigationStart,
-        dom_complete: timing.domComplete - timing.navigationStart,
-        load_complete: timing.loadEventEnd - timing.navigationStart,
+        dom_interactive: timing.domInteractive - timing.startTime,
+        dom_complete: timing.domComplete - timing.startTime,
+        load_complete: timing.loadEventEnd - timing.startTime,
       })
     }
   }
