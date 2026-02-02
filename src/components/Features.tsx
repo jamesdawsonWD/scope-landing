@@ -4,6 +4,8 @@ import { motion, useInView } from 'framer-motion'
 import { Cpu, Cloud, Layers, Sliders, Zap, Box, Sparkles, ArrowUpRight } from 'lucide-react'
 import { useRef, useEffect, useState } from 'react'
 import { DotPattern, AnimatedBeam } from './ui/GridPattern'
+import { features } from '@/content/copy'
+import { renderText } from '@/lib/renderText'
 
 export default function Features() {
   const ref = useRef(null)
@@ -21,17 +23,21 @@ export default function Features() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            What makes Scope
+            {features.heading.line1}
             <br />
-            <span className="gradient-text">different.</span>
+            <span className="gradient-text">{features.heading.line2}</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Open source, local-first, and built for people who want actual control over real-time AI video.
+            {renderText(features.description)}
           </p>
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+        <div className="relative">
+          {/* Single glow behind all cards */}
+          <div className="absolute inset-0 -inset-x-8 -inset-y-8 bg-white/[0.03] rounded-[3rem] blur-3xl" />
+          
+          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
           {/* Large Feature Card - Real-time Control */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -59,10 +65,10 @@ export default function Features() {
                 
                 <div className="mt-auto">
                   <h3 className="text-2xl lg:text-3xl font-bold mb-3 group-hover:text-white transition-colors">
-                    Full creative control
+                    {features.items.creativeControl.title}
                   </h3>
                   <p className="text-muted leading-relaxed text-base lg:text-lg">
-                    VACE for inpainting and editing, LoRAs and ControlNets for output conditioning, director-style timeline config for storytelling, and composable plugins to build unique workflows.
+                    {features.items.creativeControl.description}
                   </p>
                 </div>
               </div>
@@ -93,10 +99,10 @@ export default function Features() {
                 </div>
                 
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors">
-                  Flexible API
+                  {features.items.cloudApi.title}
                 </h3>
                 <p className="text-muted text-sm">
-                  Your real-time AI video pipelines, hosted on infrastructure purpose-built for video streaming.
+                  {features.items.cloudApi.description}
                 </p>
               </div>
             </div>
@@ -117,12 +123,10 @@ export default function Features() {
                   <Cpu className="w-5 h-5 text-white" />
                 </div>
                 
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition-colors">
-                  Custom Pipelines
-                </h3>
-                <p className="text-muted text-sm leading-relaxed">
-                  Waypoint-1, Krea Real-Time, LongLive, MemFlow, and more.
-                </p>
+                <h2 className="text-2xl font-semibold mb-2 group-hover:text-white transition-colors">
+                  {features.items.openSource.title}
+                </h2>
+            
               </div>
               
               <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-all" />
@@ -138,17 +142,7 @@ export default function Features() {
           >
             <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
               {/* Stacked layers visual */}
-              <div className="absolute top-6 right-6 flex flex-col gap-1">
-                {[...Array(4)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="w-8 h-1.5 rounded-full bg-white/10"
-                    initial={{ scaleX: 1 - i * 0.15 }}
-                    whileHover={{ scaleX: 1 }}
-                    transition={{ delay: i * 0.05 }}
-                  />
-                ))}
-              </div>
+      
               
               <div className="relative z-10 h-full flex flex-col">
                 <div className="p-2.5 rounded-xl bg-white/10 w-fit mb-4">
@@ -156,22 +150,13 @@ export default function Features() {
                 </div>
                 
                 <h3 className="text-xl font-semibold mb-3 group-hover:text-white transition-colors">
-                  Composable Workflows
+                  {features.items.workflows.title}
                 </h3>
                 <p className="text-muted text-sm leading-relaxed mb-4">
-                  Save entire workflows, share them with collaborators, and find inspiration from the Daydream community.
+                  {features.items.workflows.description}
                 </p>
                 
-                {/* Mini workflow preview */}
-                <div className="mt-auto flex gap-2">
-                  {[1, 2, 3].map((i) => (
-                    <motion.div
-                      key={i}
-                      className="flex-1 h-12 rounded-lg bg-white/5 border border-white/10"
-                      whileHover={{ scale: 1.05, borderColor: 'rgba(255,255,255,0.3)' }}
-                    />
-                  ))}
-                </div>
+               
               </div>
             </div>
           </motion.div>
@@ -190,10 +175,10 @@ export default function Features() {
                 </div>
                 
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition-colors">
-                  Local-First
+                  {features.items.localFirst.title}
                 </h3>
                 <p className="text-muted text-sm leading-relaxed">
-                  Run everything locally with full control over your data.
+                  {features.items.localFirst.description}
                 </p>
               </div>
               
@@ -214,12 +199,7 @@ export default function Features() {
             className="lg:col-span-2 group relative"
           >
             <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
-              {/* Code lines decoration */}
-              <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-2 opacity-20 group-hover:opacity-40 transition-opacity">
-                {[80, 60, 90, 45, 70].map((width, i) => (
-                  <div key={i} className="h-1 rounded-full bg-white" style={{ width: `${width}px` }} />
-                ))}
-              </div>
+           
               
               <div className="relative z-10 h-full flex flex-col justify-center">
                 <div className="flex items-center gap-4">
@@ -228,16 +208,17 @@ export default function Features() {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-1 group-hover:text-white transition-colors">
-                      Open Source
+                      {features.items.models.title}
                     </h3>
                     <p className="text-muted text-sm">
-                      Fully open source. Inspect, modify, and contribute to the codebase.
+                      {features.items.models.description}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </motion.div>
+          </div>
         </div>
       </div>
     </section>

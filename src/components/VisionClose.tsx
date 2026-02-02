@@ -2,7 +2,8 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
-import { Users } from 'lucide-react'
+import { visionClose } from '@/content/copy'
+import { renderTextWithBreaks } from '@/lib/renderText'
 
 // Discord Icon
 function DiscordIcon({ className }: { className?: string }) {
@@ -30,9 +31,9 @@ export default function VisionClose() {
           transition={{ duration: 0.8 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8"
         >
-          This medium is being
+          {visionClose.heading.line1}
           <br />
-          <span className="gradient-text">invented right now</span>
+          <span className="gradient-text">{visionClose.heading.line2}</span>
         </motion.h2>
 
         {/* Body text */}
@@ -42,9 +43,7 @@ export default function VisionClose() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="text-lg md:text-xl text-muted max-w-3xl mx-auto mb-12 leading-relaxed"
         >
-          Consumer-grade world models are arriving this year. Games that generate themselves. Video that responds to viewers. AI characters you can talk to in real-time.
-          <br /><br />
-          The people experimenting today are the ones who&apos;ll define how this works tomorrow. That&apos;s what Scope is for.
+          {renderTextWithBreaks(visionClose.description)}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -55,16 +54,16 @@ export default function VisionClose() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a
-            href="https://discord.gg/QXk48Jve"
+            href={visionClose.cta.secondary.href}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary flex items-center gap-2 px-8 py-4"
           >
             <DiscordIcon className="w-5 h-5" />
-            <span>Join the community</span>
+            <span>{visionClose.cta.secondary.label}</span>
           </a>
           <a
-            href="#download"
+            href={visionClose.cta.primary.href}
             className="btn-primary flex items-center gap-2 px-8 py-4"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -72,7 +71,7 @@ export default function VisionClose() {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <span>Download Scope</span>
+            <span>{visionClose.cta.primary.label}</span>
           </a>
         </motion.div>
       </div>

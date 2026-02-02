@@ -4,6 +4,9 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { Play } from 'lucide-react'
 import { useRef } from 'react'
 import { MarqueeBento } from './ui/SkewedMarquee'
+import { hero } from '@/content/copy'
+import { renderText } from '@/lib/renderText'
+import { trackCTAClick, trackExternalLink } from '@/lib/analytics'
 
 const videos = [
   '/videos/video-1.mp4',
@@ -43,28 +46,28 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="inline-flex items-center px-3 py-1.5 rounded-full glass mb-8 mt-20"
         >
-          <span className="px-2 py-0.5 text-xs font-mono rounded text-white/80">Scope v0.1.0-beta.3</span>
+          <span className="px-2 py-0.5 text-xs font-mono rounded text-white/80">{hero.badge}</span>
         </motion.div>
 
-        {/* Main Heading */}
+        {/* Main Heading - H1 for SEO */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
         >
-          <span className="gradient-text">Real-time AI video</span>
-          <span className="block">starts here.</span>
+          <span className="gradient-text">{renderText(hero.heading)}</span>
+          <span className="block text-3xl md:text-md lg:text-xl mt-2 text-white/90 font-semibold">{hero.tagline}</span>
         </motion.h1>
 
-        {/* Description */}
+        {/* Description - keyword-rich intro paragraph */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12"
         >
-          The open-source tool for running, remixing, and building with AI video models, live. No batch renders. No waiting. Just hit play.
+          {renderText(hero.description)}
         </motion.p>
 
         {/* CTA Buttons */}
@@ -75,24 +78,26 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
         >
           <a
-            href="#download"
+            href={hero.cta.primary.href}
             className="btn-primary flex items-center gap-2 text-lg px-8 py-4"
+            onClick={() => trackCTAClick('Download', 'hero', 'primary')}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <span>Download</span>
+            <span>{hero.cta.primary.label}</span>
           </a>
           <a
-            href="https://docs.daydream.live/"
+            href={hero.cta.secondary.href}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-secondary flex items-center gap-2 text-lg px-8 py-4"
+            onClick={() => trackExternalLink('Learn/Docs', hero.cta.secondary.href, 'hero')}
           >
             <Play className="w-5 h-5" />
-            <span>Learn</span>
+            <span>{hero.cta.secondary.label}</span>
           </a>
         </motion.div>
 

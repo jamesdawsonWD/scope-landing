@@ -2,6 +2,8 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect } from 'react'
+import { productShowcase } from '@/content/copy'
+import { renderText } from '@/lib/renderText'
 
 export default function ProductShowcase() {
   const ref = useRef(null)
@@ -34,10 +36,10 @@ export default function ProductShowcase() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Real-time. <span className="gradient-text">Interactive.</span> Local-first.
+            {renderText(productShowcase.heading)}
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Combine bleeding-edge AI capabilities into a controllable bespoke workflow for video, games, and beyond.
+            {renderText(productShowcase.description)}
           </p>
         </motion.div>
 
@@ -55,7 +57,7 @@ export default function ProductShowcase() {
           <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/50">
             <video
               ref={videoRef}
-              src="/videos/video-8.mp4"
+              src={productShowcase.video}
               muted
               loop
               playsInline

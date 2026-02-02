@@ -3,51 +3,9 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef, useState, useEffect, useCallback } from 'react'
-
-const models = [
-  {
-    name: 'Overworld/Waypoint-1-Small',
-    type: 'World Model',
-    description: 'Real-time world simulation and generation',
-    link: 'https://github.com/daydreamlive/scope-overworld',
-    video: '/videos/video-2.mp4',
-  },
-  {
-    name: 'krea/krea-realtime-video',
-    type: 'Autoregressive Video Diffusion Model',
-    description: 'Ultra-fast real-time video generation',
-    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/krea_realtime_video/docs/usage.md',
-    video: '/videos/video-1.mp4',
-  },
-  {
-    name: 'NVlabs/LongLive-1.3B',
-    type: 'Autoregressive Video Diffusion Model',
-    description: 'Long-form coherent video synthesis',
-    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/longlive/docs/usage.md',
-    video: '/videos/video-6.mp4',
-  },
-  {
-    name: 'KlingTeam/MemFlow',
-    type: 'Autoregressive Video Diffusion Model',
-    description: 'Memory-efficient video flow generation',
-    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/memflow/docs/usage.md',
-    video: '/videos/video-3.mp4',
-  },
-  {
-    name: 'StreamDiffusionV2',
-    type: 'Autoregressive Video Diffusion Model',
-    description: 'Streaming real-time diffusion pipeline',
-    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/streamdiffusionv2/docs/usage.md',
-    video: '/videos/streamdiffusion-demo.mp4',
-  },
-  {
-    name: 'Reward-Forcing-T2V-1.3B',
-    type: 'Autoregressive Video Diffusion Model',
-    description: 'Text-to-video with reward optimization',
-    link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/reward_forcing/docs/usage.md',
-    video: '/videos/video-5.mp4',
-  },
-]
+import { models } from '@/content/copy'
+import { renderText } from '@/lib/renderText'
+import { trackModelCardView, trackModelCardClick } from '@/lib/analytics'
 
 const AUTO_SCROLL_INTERVAL = 5000 // 5 seconds
 
@@ -69,18 +27,20 @@ export default function Models() {
     container.scrollTo({ left: scrollPosition, behavior: 'smooth' })
     setActiveIndex(index)
     setProgress(0)
+    // Track model card view
+    trackModelCardView(models.items[index].name, index)
   }, [])
 
   const activeIndexRef = useRef(activeIndex)
   activeIndexRef.current = activeIndex
 
   const goToNext = useCallback(() => {
-    const nextIndex = (activeIndexRef.current + 1) % models.length
+    const nextIndex = (activeIndexRef.current + 1) % models.items.length
     scrollToIndex(nextIndex)
   }, [scrollToIndex])
 
   const goToPrev = useCallback(() => {
-    const prevIndex = activeIndexRef.current === 0 ? models.length - 1 : activeIndexRef.current - 1
+    const prevIndex = activeIndexRef.current === 0 ? models.items.length - 1 : activeIndexRef.current - 1
     scrollToIndex(prevIndex)
   }, [scrollToIndex])
 
@@ -111,7 +71,7 @@ export default function Models() {
     const container = scrollRef.current
     const cardWidth = 520
     const newIndex = Math.round(container.scrollLeft / cardWidth)
-    if (newIndex !== activeIndex && newIndex >= 0 && newIndex < models.length) {
+    if (newIndex !== activeIndex && newIndex >= 0 && newIndex < models.items.length) {
       setActiveIndex(newIndex)
       setProgress(0)
     }
@@ -131,12 +91,12 @@ export default function Models() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Run the latest models
+            {models.heading.line1}
             <br />
-            <span className="gradient-text">the day they drop</span>
+            <span className="gradient-text">{models.heading.line2}</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            World models, video diffusion, real-time style transfer. New models ship in Scope as fast as they come out.
+            {renderText(models.description)}
           </p>
         </motion.div>
 
@@ -156,7 +116,7 @@ export default function Models() {
             className="overflow-x-auto pb-4 scrollbar-hide"
           >
             <div className="flex gap-5 px-[calc(50%-250px)]" style={{ width: 'max-content' }}>
-              {models.map((model, index) => (
+              {models.items.map((model, index) => (
                 <ModelCard 
                   key={model.name} 
                   model={model} 
@@ -191,7 +151,7 @@ export default function Models() {
 
           {/* Dots indicator */}
           <div className="flex items-center gap-2">
-            {models.map((_, index) => (
+            {models.items.map((_, index) => (
               <button
                 key={index}
                 onClick={() => scrollToIndex(index)}
@@ -251,7 +211,7 @@ function ModelCard({
   sectionVisible,
   onClick 
 }: { 
-  model: (typeof models)[0]
+  model: (typeof models.items)[0]
   index: number
   isActive: boolean
   sectionVisible: boolean
@@ -282,6 +242,7 @@ function ModelCard({
 
   const handleCardClick = () => {
     if (isActive) {
+      trackModelCardClick(model.name, model.link)
       window.open(model.link, '_blank', 'noopener,noreferrer')
     } else {
       onClick()
@@ -325,8 +286,8 @@ function ModelCard({
                 className="w-full h-full object-cover"
                 style={{ backgroundColor: '#0a0a0a' }}
               />
-              {/* Video overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+              {/* Video overlay gradient - bottom only for text readability */}
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             </motion.div>
           )}
         </AnimatePresence>
