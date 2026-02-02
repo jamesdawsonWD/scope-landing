@@ -289,7 +289,7 @@ export const workflowGallery = {
       colSpan: 1,
     },
     {
-      title: 'Jiggly Cubes — VACE Depth-Controlled Video',
+      title: 'Video Conductor',
       video: '/videos/video-3.mp4',
       link: 'https://app.daydream.live/creators/ddickinson/video-conductor',
       colSpan: 2,
