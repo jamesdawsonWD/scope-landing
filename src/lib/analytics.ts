@@ -7,7 +7,7 @@ import posthog from 'posthog-js'
 
 // Type definitions for better DX
 type Platform = 'windows' | 'mac' | 'linux' | 'unknown'
-type Section = 'hero' | 'realtime-showcase' | 'use-cases' | 'models' | 'features' | 'workflows' | 'download' | 'community' | 'vision' | 'footer'
+type Section = 'hero' | 'realtime-showcase' | 'use-cases' | 'models' | 'features' | 'workflows' | 'download' | 'community' | 'vision' | 'footer' | 'pricing'
 
 // =============================================================================
 // PAGE & NAVIGATION TRACKING
