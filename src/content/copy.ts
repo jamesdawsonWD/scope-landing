@@ -69,7 +69,7 @@ export const realTimeShowcase = {
   heading: {
     line1: 'AI video is going real-time.',
   },
-  description: 'Most AI video tools render clips <highlight>after the fact</highlight>. Scope works <highlight>while you work</highlight> — transforming video as it happens. That opens up things batch tools can\'t do.',
+  description: 'Most AI video tools render clips <highlight>after the fact</highlight>. Scope works <highlight>while you work</highlight>, transforming video as it happens. That opens up workflows and pipelines batch tools can\'t do.',
   scrollHint: 'Scroll to explore',
   nowShowing: 'Now showing:',
   
@@ -124,7 +124,7 @@ export const realTimeShowcase = {
 // =============================================================================
 export const findYourLane = {
   heading: 'Find your <gradient>lane</gradient>',
-  subtitle: 'Real-time AI video is new territory. Find <highlight>your people</highlight> within our community.',
+  subtitle: 'Real-time AI video is new territory. <br> Find <highlight>your people</highlight> and your inspiration in the Daydream community..',
   
   audiences: [
     {
@@ -175,7 +175,7 @@ export const models = {
     line1: 'Run the latest models',
     line2: '  the day they drop',
   },
-  description: 'World models, video diffusion, real-time style transfer. <highlight>New AI video models are added to Scope as soon as they release.</highlight>',
+  description: 'World models, video diffusion, real-time style transfer. <br> <highlight>New AI video models are added to Scope as soon as they release.</highlight>',
   
   items: [
     {
@@ -444,19 +444,25 @@ export const footer = {
 // =============================================================================
 export const navigation = {
   logo: {
-    alt: 'Scope - Real-time AI video generator',
-    src: '/logo.jpeg',
+    alt: 'Daydream - Real-time AI video',
+    src: '/images/daydream-logo.svg',
+    iconSrc: '/daydream-logo.svg', // Icon-only version for mobile/tablet
   },
   links: [
-    { label: 'Features', href: '#features' },
-    { label: 'Workflows', href: '#workflows' },
-    { label: 'Download', href: '#download' },
-    { label: 'Community', href: '#community' },
+    { label: 'Documentation', href: 'https://docs.daydream.live/scope/getting-started/quickstart', external: true },
+    { label: 'Learn', href: 'https://docs.daydream.live/', external: true },
+    { label: 'Community', href: 'https://app.daydream.live/discover', external: true },
+    { label: 'Creator Program', href: '/program', external: false },
+    { label: 'Pricing', href: '/pricing', external: false },
   ],
   github: 'https://github.com/daydreamlive/scope',
   cta: {
     label: 'Download',
     href: '#download',
+  },
+  programBanner: {
+    label: 'Join Scope Creator Program',
+    href: '/program',
   },
 }
 

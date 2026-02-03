@@ -40,22 +40,22 @@ export default function RealTimeShowcase() {
   }, [sectionVisible])
 
   return (
-    <section ref={ref} className="py-24 md:py-32 relative overflow-hidden">
+    <section ref={ref} className="py-16 md:py-24 lg:py-32 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
 
-      <div className="relative max-w-6xl mx-auto px-6">
+      <div className="relative max-w-6xl mx-auto px-4 md:px-6">
         {/* Headline */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-8 md:mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-left min-[375px]:text-center">
             {realTimeShowcase.heading.line1}
           </h2>
-          <p className="text-base md:text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted max-w-2xl mx-auto text-left min-[375px]:text-center">
             {renderText(realTimeShowcase.description)}
           </p>
         </motion.div>
@@ -65,7 +65,7 @@ export default function RealTimeShowcase() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mb-10 md:mb-14 max-w-4xl mx-auto"
+          className="mb-12 max-w-4xl mx-auto"
         >
      
           <div className="relative">
@@ -93,7 +93,7 @@ export default function RealTimeShowcase() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 max-w-4xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 max-w-4xl mx-auto"
         >
           {useCases.map((useCase, index) => {
             const Icon = useCase.iconComponent
@@ -104,17 +104,17 @@ export default function RealTimeShowcase() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.05 }}
-                className="relative p-4 md:p-5 rounded-xl border bg-card/80 border-card-border hover:border-white/20 transition-colors"
+                className="relative p-4 lg:p-5 rounded-xl border bg-card/80 border-card-border hover:border-white/20 transition-colors"
               >
-                <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
-                  <div className="p-1.5 md:p-2 rounded-lg bg-white/5">
-                    <Icon className="w-4 h-4 md:w-5 md:h-5 text-white/60" />
+                <div className="flex items-center gap-2.5 lg:gap-3">
+                  <div className="p-2 rounded-lg bg-white/5">
+                    <Icon className="w-5 h-5 text-white/60" />
                   </div>
-                  <h3 className="text-sm md:text-base font-semibold text-white/90">
+                  <h3 className="text-sm lg:text-base font-semibold text-white/90">
                     {useCase.title}
                   </h3>
                 </div>
-                <p className="text-xs md:text-sm leading-relaxed text-white/50">
+                <p className="text-sm leading-relaxed text-white/50 hidden lg:block mt-3">
                   {useCase.description}
                 </p>
               </motion.div>

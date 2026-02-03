@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { Trophy } from 'lucide-react'
 import Image from 'next/image'
 import { ExternalVideo } from './ui/LazyVideo'
@@ -36,127 +36,146 @@ const mentors = [
 
 export default function DaydreamProgram() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start end', 'end start'],
   })
 
-  // Parallax values for different elements
-  const videoY = useTransform(scrollYProgress, [0, 1], [-100, 200])
+  // Reduced parallax values - tighter on mobile
+  const videoY = useTransform(scrollYProgress, [0, 1], isMobile ? [-30, 60] : [-60, 120])
   
-  // Card parallax - they move up as you scroll
-  const cardsY = useTransform(scrollYProgress, [0, 0.5], [60, -40])
+  // Card parallax - reduced movement
+  const cardsY = useTransform(scrollYProgress, [0, 0.5], isMobile ? [20, -15] : [40, -25])
   
-  // Mentor card parallax - subtle different speeds for depth
-  const mentorLeftY = useTransform(scrollYProgress, [0.3, 0.7], [40, -60])
-  const mentorRightY = useTransform(scrollYProgress, [0.3, 0.7], [60, -40])
+  // Mentor card parallax - much subtler on mobile
+  const mentorLeftY = useTransform(scrollYProgress, [0.3, 0.7], isMobile ? [15, -20] : [25, -35])
+  const mentorRightY = useTransform(scrollYProgress, [0.3, 0.7], isMobile ? [20, -15] : [35, -25])
 
   return (
     <section 
       ref={containerRef}
       id="program" 
-      className="relative overflow-hidden pt-32"
-      style={{ minHeight: '250vh' }}
+      className="relative overflow-hidden pt-24 md:pt-32"
+      style={{ minHeight: isMobile ? '140vh' : '180vh' }}
     >
-      {/* Background gradient orbs */}
-      <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-white/[0.015] rounded-full blur-[150px]" />
-      <div className="absolute bottom-1/3 right-0 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-[120px]" />
+      {/* Background gradient orbs - smaller on mobile */}
+      <div className="absolute top-1/4 left-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-white/[0.015] rounded-full blur-[100px] md:blur-[150px]" />
+      <div className="absolute bottom-1/3 right-0 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-white/[0.02] rounded-full blur-[80px] md:blur-[120px]" />
 
       {/* Hero Section Container */}
-      <div className="relative pt-32 pb-20">
+      <div className="relative pt-20 md:pt-32 pb-12 md:pb-20">
         
         {/* Prize Cards Fanning Out - Behind Header */}
         <motion.div 
           style={{ y: cardsY }}
-          className="absolute inset-x-0 top-12 z-0 flex justify-center"
+          className="absolute inset-x-0 top-6 md:top-12 z-0 flex justify-center"
         >
           {/* Container centered, cards fan out from center */}
           <div className="relative flex items-start justify-center">
             {/* 2nd Place - Fans out to the LEFT */}
             <motion.div
               initial={{ opacity: 0, rotate: 0, x: 0, y: 0 }}
-              whileInView={{ opacity: 1, rotate: -28, x: -180, y: 30 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              whileInView={{ 
+                opacity: 1, 
+                rotate: isMobile ? -18 : -28, 
+                x: isMobile ? -100 : -180, 
+                y: isMobile ? 15 : 30 
+              }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute z-0"
               style={{ 
                 transformOrigin: 'bottom center',
               }}
             >
               <div 
-                className="p-4 md:p-5 rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[140px] md:w-[160px]"
+                className="p-3 md:p-5 rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[110px] md:w-[160px]"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-2 h-2 rounded-full ${prizes[1].accent}`} />
-                  <span className="text-xs font-medium text-white/50">{prizes[1].place}</span>
+                <div className="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+                  <div className={`w-1.5 md:w-2 h-1.5 md:h-2 rounded-full ${prizes[1].accent}`} />
+                  <span className="text-[10px] md:text-xs font-medium text-white/50">{prizes[1].place}</span>
                 </div>
-                <p className="text-xl md:text-2xl font-bold text-white">{prizes[1].amount}</p>
+                <p className="text-lg md:text-2xl font-bold text-white">{prizes[1].amount}</p>
               </div>
             </motion.div>
 
             {/* 3rd Place - Fans out to the RIGHT */}
             <motion.div
               initial={{ opacity: 0, rotate: 0, x: 0, y: 0 }}
-              whileInView={{ opacity: 1, rotate: 28, x: 180, y: 30 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+              whileInView={{ 
+                opacity: 1, 
+                rotate: isMobile ? 18 : 28, 
+                x: isMobile ? 100 : 180, 
+                y: isMobile ? 15 : 30 
+              }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
               className="absolute z-0"
               style={{ 
                 transformOrigin: 'bottom center',
               }}
             >
               <div 
-                className="p-4 md:p-5 rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[140px] md:w-[160px]"
+                className="p-3 md:p-5 rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[110px] md:w-[160px]"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-2 h-2 rounded-full ${prizes[2].accent}`} />
-                  <span className="text-xs font-medium text-white/50">{prizes[2].place}</span>
+                <div className="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+                  <div className={`w-1.5 md:w-2 h-1.5 md:h-2 rounded-full ${prizes[2].accent}`} />
+                  <span className="text-[10px] md:text-xs font-medium text-white/50">{prizes[2].place}</span>
                 </div>
-                <p className="text-xl md:text-2xl font-bold text-white">{prizes[2].amount}</p>
+                <p className="text-lg md:text-2xl font-bold text-white">{prizes[2].amount}</p>
               </div>
             </motion.div>
 
             {/* 1st Place - Center, on top */}
             <motion.div
-              initial={{ opacity: 0, y: -40 }}
+              initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
               className="relative z-10"
             >
               <div 
-                className="p-4 md:p-5 rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[140px] md:w-[160px]"
+                className="p-3 md:p-5 rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[110px] md:w-[160px]"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className={`w-2.5 h-2.5 rounded-full ${prizes[0].accent}`} />
-                  <span className="text-xs font-medium text-white/50">{prizes[0].place}</span>
+                <div className="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+                  <div className={`w-2 md:w-2.5 h-2 md:h-2.5 rounded-full ${prizes[0].accent}`} />
+                  <span className="text-[10px] md:text-xs font-medium text-white/50">{prizes[0].place}</span>
                 </div>
-                <p className="text-xl md:text-2xl font-bold text-white">{prizes[0].amount}</p>
+                <p className="text-lg md:text-2xl font-bold text-white">{prizes[0].amount}</p>
               </div>
             </motion.div>
           </div>
         </motion.div>
 
         {/* Header Content - Above Cards (z-10) */}
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-24 md:pt-20">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 text-center pt-16 md:pt-20">
           {/* Eyebrow */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center px-4 py-1.5 rounded-full glass mb-8"
+            transition={{ duration: 0.4 }}
+            className="inline-flex items-center px-3 md:px-4 py-1 md:py-1.5 rounded-full glass mb-5 md:mb-8"
           >
-            <span className="text-sm font-medium text-white/80">Daydream Interactive AI Video Program</span>
+            <span className="text-xs md:text-sm font-medium text-white/80">Daydream Interactive AI Video Program</span>
           </motion.div>
 
           {/* Main Heading */}
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-center"
           >
             Build Real-Time AI Video
             <br />
@@ -165,33 +184,33 @@ export default function DaydreamProgram() {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-sm md:text-xl text-white/50 max-w-2xl mx-auto mb-6 md:mb-10 text-center px-2"
           >
             A curated <span className="font-semibold text-white/70">two-week creative lab</span> for AI artists and technologists defining the next medium for <span className="font-semibold text-white/70">live AI video</span>.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4"
           >
             <motion.a
               href="https://tally.so/r/kdbP8Z"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary flex items-center gap-2 text-lg px-8 py-4"
+              className="btn-primary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <span>Apply to Join</span>
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 md:w-5 h-4 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </motion.a>
@@ -199,28 +218,28 @@ export default function DaydreamProgram() {
               href="https://discord.gg/QXk48Jve"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary flex items-center gap-2 text-lg px-8 py-4"
+              className="btn-secondary flex items-center gap-2 text-base md:text-lg px-6 md:px-8 py-3 md:py-4"
             >
-              <DiscordIcon className="w-5 h-5" />
+              <DiscordIcon className="w-4 md:w-5 h-4 md:h-5" />
               <span>Join Discord</span>
             </a>
           </motion.div>
         </div>
       </div>
 
-      {/* Video Layer - Parallaxed in background, sticky */}
-      <div className="sticky top-0 h-screen w-full -mt-32">
+      {/* Video Layer - Parallaxed in background, sticky on desktop only */}
+      <div className={`${isMobile ? 'relative' : 'sticky top-0'} h-auto md:h-screen w-full ${isMobile ? '' : '-mt-32'}`}>
         <motion.div 
-          style={{ y: videoY }}
-          className="absolute inset-0 z-0"
+          style={{ y: isMobile ? 0 : videoY }}
+          className={`${isMobile ? 'relative' : 'absolute inset-0'} z-0`}
         >
-          <div className="max-w-6xl mx-auto px-6 h-full flex items-center">
+          <div className="max-w-6xl mx-auto px-4 md:px-6 h-full flex items-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/50 w-full"
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+              className="relative rounded-xl md:rounded-2xl overflow-hidden shadow-2xl shadow-black/50 w-full"
             >
               <div className="aspect-video relative">
                 <ExternalVideo
@@ -237,29 +256,33 @@ export default function DaydreamProgram() {
 
       {/* Info Card - Scrolls over the video */}
       <div className="relative z-30">
-        <div className="max-w-2xl mx-auto px-6 -mt-20 pb-32">
+        <div className="max-w-2xl mx-auto px-4 md:px-6 mt-6 md:-mt-20 pb-16 md:pb-32">
           {/* Floating Mentor Cards - parallax with badge */}
-          <div className="relative flex justify-center mb-6">
+          <div className="relative flex justify-center mb-4 md:mb-6">
             {/* Vibor - Left, tilted inward (toward center) */}
             <motion.div
-              initial={{ opacity: 0, x: 50, rotate: 0 }}
-              whileInView={{ opacity: 1, x: -160, rotate: 6 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, x: 30, rotate: 0 }}
+              whileInView={{ 
+                opacity: 1, 
+                x: isMobile ? -90 : -160, 
+                rotate: isMobile ? 4 : 6 
+              }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ 
-                y: mentorLeftY,
+                y: isMobile ? 0 : mentorLeftY,
                 transformStyle: 'preserve-3d',
                 perspective: '1000px',
               }}
               className="absolute z-0"
             >
               <div 
-                className="relative rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[160px] md:w-[180px] overflow-hidden"
-                style={{ transform: 'rotateY(-12deg)' }}
+                className="relative rounded-lg md:rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[120px] md:w-[180px] overflow-hidden"
+                style={{ transform: isMobile ? 'rotateY(-8deg)' : 'rotateY(-12deg)' }}
               >
                 {/* Mentor Badge */}
-                <div className="absolute top-2 right-2 z-10 px-2 py-0.5 rounded-full bg-amber-500/90 backdrop-blur-sm">
-                  <span className="text-[10px] font-semibold text-black uppercase tracking-wide">Mentor</span>
+                <div className="absolute top-1.5 md:top-2 right-1.5 md:right-2 z-10 px-1.5 md:px-2 py-0.5 rounded-full bg-amber-500/90 backdrop-blur-sm">
+                  <span className="text-[8px] md:text-[10px] font-semibold text-black uppercase tracking-wide">Mentor</span>
                 </div>
                 {/* Full width image */}
                 <div className="w-full aspect-square overflow-hidden bg-white/5">
@@ -272,33 +295,37 @@ export default function DaydreamProgram() {
                   />
                 </div>
                 {/* Name and role */}
-                <div className="p-3">
-                  <p className="text-sm font-medium text-white text-center">{mentors[0].name}</p>
-                  <p className="text-xs text-white/40 text-center">{mentors[0].role}</p>
+                <div className="p-2 md:p-3">
+                  <p className="text-xs md:text-sm font-medium text-white text-center">{mentors[0].name}</p>
+                  <p className="text-[10px] md:text-xs text-white/40 text-center">{mentors[0].role}</p>
                 </div>
               </div>
             </motion.div>
 
             {/* Yondon - Right, tilted inward (toward center) */}
             <motion.div
-              initial={{ opacity: 0, x: -50, rotate: 0 }}
-              whileInView={{ opacity: 1, x: 160, rotate: -6 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, x: -30, rotate: 0 }}
+              whileInView={{ 
+                opacity: 1, 
+                x: isMobile ? 90 : 160, 
+                rotate: isMobile ? -4 : -6 
+              }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ 
-                y: mentorRightY,
+                y: isMobile ? 0 : mentorRightY,
                 transformStyle: 'preserve-3d',
                 perspective: '1000px',
               }}
               className="absolute z-0"
             >
               <div 
-                className="relative rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[160px] md:w-[180px] overflow-hidden"
-                style={{ transform: 'rotateY(12deg)' }}
+                className="relative rounded-lg md:rounded-xl border border-white/10 bg-[#141414] backdrop-blur-sm shadow-xl w-[120px] md:w-[180px] overflow-hidden"
+                style={{ transform: isMobile ? 'rotateY(8deg)' : 'rotateY(12deg)' }}
               >
                 {/* Mentor Badge */}
-                <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full bg-amber-500/90 backdrop-blur-sm">
-                  <span className="text-[10px] font-semibold text-black uppercase tracking-wide">Mentor</span>
+                <div className="absolute top-1.5 md:top-2 left-1.5 md:left-2 z-10 px-1.5 md:px-2 py-0.5 rounded-full bg-amber-500/90 backdrop-blur-sm">
+                  <span className="text-[8px] md:text-[10px] font-semibold text-black uppercase tracking-wide">Mentor</span>
                 </div>
                 {/* Full width image */}
                 <div className="w-full aspect-square overflow-hidden bg-white/5">
@@ -311,34 +338,34 @@ export default function DaydreamProgram() {
                   />
                 </div>
                 {/* Name and role */}
-                <div className="p-3">
-                  <p className="text-sm font-medium text-white text-center">{mentors[1].name}</p>
-                  <p className="text-xs text-white/40 text-center">{mentors[1].role}</p>
+                <div className="p-2 md:p-3">
+                  <p className="text-xs md:text-sm font-medium text-white text-center">{mentors[1].name}</p>
+                  <p className="text-[10px] md:text-xs text-white/40 text-center">{mentors[1].role}</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Spacer for the mentor cards */}
-            <div className="h-56 md:h-48" />
+            {/* Spacer for the mentor cards - smaller on mobile */}
+            <div className="h-40 md:h-48" />
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className="relative z-10 p-6 md:p-8 rounded-2xl border border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl"
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            className="relative z-10 p-4 md:p-8 rounded-xl md:rounded-2xl border border-white/10 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl"
           >
             {/* About */}
-            <p className="text-sm md:text-base text-white/50 leading-relaxed text-center mb-6">
+            <p className="text-xs md:text-base text-white/50 leading-relaxed text-center mb-4 md:mb-6">
               Experiment with <span className="font-medium text-white/70">real-time AI video</span> in TouchDesigner, Unity, and Unreal Engine. 
               Get support through <span className="font-medium text-white/70">workshops, office hours, and mentorship</span>.
             </p>
 
             {/* Stats Row */}
-            <div className="flex items-center justify-center gap-3 md:gap-4 mb-6 text-sm">
-              <div className="flex items-center gap-1.5">
-                <Trophy className="w-4 h-4 text-amber-500" />
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6 text-xs md:text-sm">
+              <div className="flex items-center gap-1 md:gap-1.5">
+                <Trophy className="w-3.5 md:w-4 h-3.5 md:h-4 text-amber-500" />
                 <span className="text-white font-medium">$5,000</span>
               </div>
               <span className="text-white/30">•</span>
@@ -348,11 +375,11 @@ export default function DaydreamProgram() {
             </div>
 
             {/* Timeline */}
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/5 mb-6">
-              <p className="text-[10px] font-medium text-white/30 uppercase tracking-wider mb-5 text-center">Timeline</p>
+            <div className="p-3 md:p-4 rounded-lg md:rounded-xl bg-white/[0.03] border border-white/5 mb-4 md:mb-6">
+              <p className="text-[9px] md:text-[10px] font-medium text-white/30 uppercase tracking-wider mb-3 md:mb-5 text-center">Timeline</p>
               <div className="relative">
                 {/* Horizontal line */}
-                <div className="absolute top-1/2 left-4 right-4 h-px bg-white/10 -translate-y-1/2" />
+                <div className="absolute top-1/2 left-2 md:left-4 right-2 md:right-4 h-px bg-white/10 -translate-y-1/2" />
                 
                 {/* Timeline items */}
                 <div className="relative flex justify-between items-center">
@@ -365,11 +392,11 @@ export default function DaydreamProgram() {
                   ].map((item, index) => (
                     <div key={index} className="flex flex-col items-center">
                       {/* Label above */}
-                      <span className="text-[10px] md:text-xs text-white/40 mb-2">{item.label}</span>
+                      <span className="text-[8px] md:text-xs text-white/40 mb-1.5 md:mb-2">{item.label}</span>
                       {/* Dot */}
-                      <div className="w-2.5 h-2.5 rounded-full bg-white/20 border border-white/30 relative z-10" />
+                      <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-white/20 border border-white/30 relative z-10" />
                       {/* Date below */}
-                      <span className="text-xs md:text-sm text-white font-medium mt-2">{item.date}</span>
+                      <span className="text-[10px] md:text-sm text-white font-medium mt-1.5 md:mt-2">{item.date}</span>
                     </div>
                   ))}
                 </div>
@@ -381,12 +408,12 @@ export default function DaydreamProgram() {
               href="https://tally.so/r/kdbP8Z"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-medium transition-colors"
+              className="w-full flex items-center justify-center gap-2 py-2.5 md:py-3 rounded-lg md:rounded-xl bg-white hover:bg-white/90 text-black font-medium transition-colors text-sm md:text-base"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <span>Apply Now</span>
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-3.5 md:w-4 h-3.5 md:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </motion.a>

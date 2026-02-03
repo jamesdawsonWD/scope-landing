@@ -32,7 +32,7 @@ export default function AudienceMirror() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section className="py-32 relative" ref={ref}>
+    <section className="py-16 md:py-24 lg:py-32 relative" ref={ref}>
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
 

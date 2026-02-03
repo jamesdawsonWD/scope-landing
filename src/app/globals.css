@@ -47,8 +47,8 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
+  background: #00FF88;
+  color: #000000;
 }
 
 /* Gradient text utility */
@@ -143,4 +143,92 @@ html {
 
 .scroll-container:hover {
   animation-play-state: paused;
+}
+
+/* Trailing Button Animation */
+@property --trail-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.trailing-button-wrapper {
+  position: relative;
+  display: inline-flex;
+  padding: 1px;
+  border-radius: 9999px;
+  text-decoration: none;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.trailing-button-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from var(--trail-angle),
+    transparent 0%,
+    transparent 75%,
+    rgba(255, 255, 255, 0.6) 85%,
+    rgba(255, 255, 255, 0.8) 90%,
+    rgba(255, 255, 255, 0.6) 95%,
+    transparent 100%
+  );
+  animation: trailSpin 3s linear infinite;
+}
+
+.trailing-button-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.trailing-button-wrapper:hover .trailing-button-border {
+  background: conic-gradient(
+    from var(--trail-angle),
+    transparent 0%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.8) 80%,
+    rgba(255, 255, 255, 1) 90%,
+    rgba(255, 255, 255, 0.8) 95%,
+    transparent 100%
+  );
+}
+
+.trailing-button-wrapper:hover {
+  box-shadow: 0 0 20px 2px rgba(255, 255, 255, 0.1);
+}
+
+.trailing-button-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  background: rgba(10, 10, 11, 0.98);
+  z-index: 1;
+}
+
+.trailing-button-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s;
+}
+
+.trailing-button-wrapper:hover .trailing-button-text {
+  color: rgba(255, 255, 255, 1);
+}
+
+@keyframes trailSpin {
+  0% {
+    --trail-angle: 0deg;
+  }
+  100% {
+    --trail-angle: 360deg;
+  }
 }

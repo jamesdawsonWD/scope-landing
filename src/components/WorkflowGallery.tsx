@@ -12,11 +12,11 @@ export default function WorkflowGallery() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="workflows" className="py-32 relative overflow-hidden" ref={ref}>
+    <section id="workflows" className="py-16 md:py-24 lg:py-32 relative overflow-hidden" ref={ref}>
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
       
-      <div className="relative max-w-6xl mx-auto px-6">
+      <div className="relative max-w-6xl mx-auto px-4 md:px-6">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -24,10 +24,10 @@ export default function WorkflowGallery() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-left min-[375px]:text-center">
             {renderText(workflowGallery.heading)}
           </h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted max-w-2xl mx-auto text-left min-[375px]:text-center">
             {renderText(workflowGallery.description)}
           </p>
         </motion.div>

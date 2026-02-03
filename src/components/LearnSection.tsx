@@ -17,11 +17,11 @@ export default function LearnSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section className="py-32 relative overflow-hidden" ref={ref}>
+    <section className="py-16 md:py-24 lg:py-32 relative overflow-hidden" ref={ref}>
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/10 to-background" />
 
-      <div className="max-w-6xl mx-auto px-6 relative">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Text content */}
           <motion.div
@@ -29,12 +29,12 @@ export default function LearnSection() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-6 text-left">
               Learn about the frontier of{' '}
               <span className="gradient-text">realtime AI</span>
             </h2>
             
-            <p className="text-lg text-muted mb-8 max-w-lg">
+            <p className="text-base md:text-lg text-muted mb-8 max-w-lg text-left">
               Discover the latest advances in real-time video generation, world models, 
               and interactive AI experiences. Join our community to stay at the cutting edge.
             </p>

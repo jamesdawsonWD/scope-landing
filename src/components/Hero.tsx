@@ -1,12 +1,12 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Play } from 'lucide-react'
 import { useRef } from 'react'
 import { MarqueeBento } from './ui/SkewedMarquee'
-import { hero } from '@/content/copy'
+import { TrailingButton } from './ui/TrailingButton'
+import { hero, navigation } from '@/content/copy'
 import { renderText } from '@/lib/renderText'
-import { trackCTAClick, trackExternalLink } from '@/lib/analytics'
+import { trackCTAClick } from '@/lib/analytics'
 
 const videos = [
   '/videos/video-1.mp4',
@@ -37,16 +37,21 @@ export default function Hero() {
       {/* Main Content */}
       <motion.div
         style={{ y, opacity }}
-        className="relative z-20 max-w-4xl mx-auto px-6 text-center"
+        className="relative z-20 max-w-4xl mx-auto px-4 md:px-6 min-[375px]:text-center flex flex-col min-[375px]:items-center"
       >
-        {/* Badge */}
+        {/* Program Banner */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="inline-flex items-center px-3 py-1.5 rounded-full glass mb-8 mt-20"
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-6 mt-20"
         >
-          <span className="px-2 py-0.5 text-xs font-mono rounded text-white/80">{hero.badge}</span>
+          <TrailingButton
+            href={navigation.programBanner.href}
+            onClick={() => trackCTAClick('Join Program Banner', 'hero', 'secondary')}
+          >
+            {navigation.programBanner.label}
+          </TrailingButton>
         </motion.div>
 
         {/* Main Heading - H1 for SEO */}
@@ -54,7 +59,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
+          className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-left min-[375px]:text-center"
         >
           <span className="gradient-text">{renderText(hero.heading)}</span>
         </motion.h1>
@@ -64,39 +69,32 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12"
+          className="text-base md:text-xl text-muted max-w-2xl min-[375px]:mx-auto mb-12 text-left min-[375px]:text-center"
         >
           {renderText(hero.description)}
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA Button - always centered */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+          className="flex items-center justify-center mb-16 w-full"
         >
           <a
             href={hero.cta.primary.href}
-            className="btn-primary flex items-center gap-2 text-lg px-8 py-4"
-            onClick={() => trackCTAClick('Download', 'hero', 'primary')}
+            className="btn-primary flex items-center gap-3 text-lg px-8 py-4"
+            onClick={() => trackCTAClick('Download Scope', 'hero', 'primary')}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <span>{hero.cta.primary.label}</span>
-          </a>
-          <a
-            href={hero.cta.secondary.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary flex items-center gap-2 text-lg px-8 py-4"
-            onClick={() => trackExternalLink('Learn/Docs', hero.cta.secondary.href, 'hero')}
-          >
-            <Play className="w-5 h-5" />
-            <span>{hero.cta.secondary.label}</span>
+            <span className="flex flex-col items-start leading-tight">
+              <span>Download Scope</span>
+              <span className="text-xs opacity-60 font-normal">v0.1.0-beta.3</span>
+            </span>
           </a>
         </motion.div>
 
@@ -149,7 +147,7 @@ export default function Hero() {
         
         {/* fade from background on left */}
         <div 
-          className="absolute inset-y-0 left-0 w-80 z-30" 
+          className="absolute inset-y-0 left-0 w-8 md:w-80 z-30" 
           style={{
             background: 'linear-gradient(to right, var(--background) 0%, transparent 100%)'
           }}
@@ -157,7 +155,7 @@ export default function Hero() {
         
         {/* fade from background on right */}
         <div 
-          className="absolute inset-y-0 right-0 w-80 z-30" 
+          className="absolute inset-y-0 right-0 w-8 md:w-80 z-30" 
           style={{
             background: 'linear-gradient(to left, var(--background) 0%, transparent 100%)'
           }}

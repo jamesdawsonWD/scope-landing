@@ -22,7 +22,10 @@ export default function Models() {
   const scrollToIndex = useCallback((index: number) => {
     if (!scrollRef.current) return
     const container = scrollRef.current
-    const cardWidth = 520 // card width + gap
+    // On mobile: full viewport width - 32px padding + 16px gap
+    // On desktop: 500px + 20px gap
+    const isMobile = window.innerWidth < 768
+    const cardWidth = isMobile ? (window.innerWidth - 32 + 16) : 520
     const scrollPosition = index * cardWidth
     container.scrollTo({ left: scrollPosition, behavior: 'smooth' })
     setActiveIndex(index)
@@ -69,7 +72,8 @@ export default function Models() {
   const handleScroll = () => {
     if (!scrollRef.current) return
     const container = scrollRef.current
-    const cardWidth = 520
+    const isMobile = window.innerWidth < 768
+    const cardWidth = isMobile ? (window.innerWidth - 32 + 16) : 520
     const newIndex = Math.round(container.scrollLeft / cardWidth)
     if (newIndex !== activeIndex && newIndex >= 0 && newIndex < models.items.length) {
       setActiveIndex(newIndex)
@@ -78,29 +82,31 @@ export default function Models() {
   }
 
   return (
-    <section id="models" className="py-32 relative overflow-hidden" ref={ref}>
+    <section id="models" className="py-16 md:py-24 lg:py-32 relative overflow-hidden" ref={ref}>
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/20 to-background" />
 
-      <div className="relative max-w-5xl mx-auto px-6">
-        {/* Section Header */}
+      {/* Section Header - with normal padding */}
+      <div className="relative max-w-5xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-left min-[375px]:text-center">
             {models.heading.line1}
             <br />
             <span className="gradient-text">{models.heading.line2}</span>
           </h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted max-w-2xl mx-auto text-left min-[375px]:text-center">
             {renderText(models.description)}
           </p>
         </motion.div>
+      </div>
 
-        {/* Models Horizontal Scroll */}
+      {/* Models Horizontal Scroll - full width on mobile for proper centering */}
+      <div className="relative max-w-5xl mx-auto md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -113,9 +119,9 @@ export default function Models() {
           <div 
             ref={scrollRef}
             onScroll={handleScroll}
-            className="overflow-x-auto pb-4 scrollbar-hide"
+            className="overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory md:snap-none"
           >
-            <div className="flex gap-5 px-[calc(50%-250px)]" style={{ width: 'max-content' }}>
+            <div className="flex gap-4 md:gap-5 px-4 md:px-[calc(50%-250px)]" style={{ width: 'max-content' }}>
               {models.items.map((model, index) => (
                 <ModelCard 
                   key={model.name} 
@@ -129,12 +135,14 @@ export default function Models() {
             </div>
           </div>
 
-          {/* Fade edges - wider gradients */}
-          <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none" />
+          {/* Fade edges - hidden on mobile */}
+          <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none hidden md:block" />
+          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none hidden md:block" />
         </motion.div>
+      </div>
 
-        {/* Navigation Controls */}
+      {/* Navigation Controls */}
+      <div className="relative max-w-5xl mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -261,9 +269,9 @@ function ModelCard({
         delay: index * 0.1,
       }}
       onClick={handleCardClick}
-      className="group block flex-shrink-0 w-[500px] cursor-pointer"
+      className="group block flex-shrink-0 w-[calc(100vw-32px)] md:w-[500px] cursor-pointer snap-center"
     >
-      <div className={`relative h-[360px] rounded-2xl bg-card border overflow-hidden transition-all duration-300 ${
+      <div className={`relative h-[320px] md:h-[360px] rounded-2xl bg-card border overflow-hidden transition-all duration-300 ${
         isActive ? 'border-white/30' : 'border-card-border hover:border-white/20'
       }`}>
         {/* Video background */}

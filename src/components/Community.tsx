@@ -219,15 +219,118 @@ function CyclingVideo({
   )
 }
 
+// Single bottom video card component
+function BottomVideoCard({ 
+  sectionVisible, 
+  position,
+  startIndex 
+}: { 
+  sectionVisible: boolean
+  position: 'left' | 'center' | 'right'
+  startIndex: number
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [currentIndex, setCurrentIndex] = useState(startIndex)
+
+  // Cycle through videos
+  useEffect(() => {
+    if (!sectionVisible) return
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % videos.length)
+    }, CYCLE_INTERVAL)
+
+    return () => clearInterval(interval)
+  }, [sectionVisible])
+
+  // Play/pause based on visibility
+  useEffect(() => {
+    if (videoRef.current) {
+      if (sectionVisible) {
+        videoRef.current.play().catch(() => {})
+      } else {
+        videoRef.current.pause()
+      }
+    }
+  }, [sectionVisible])
+
+  // Update video source when index changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = videos[currentIndex]
+      videoRef.current.load()
+      if (sectionVisible) {
+        videoRef.current.play().catch(() => {})
+      }
+    }
+  }, [currentIndex, sectionVisible])
+
+  // Position and rotation styles
+  const positionStyles = {
+    left: {
+      className: 'absolute bottom-0 left-0 translate-y-[50%] -translate-x-[15%] z-0',
+      rotation: 'rotate-[8deg]',
+      size: 'w-[320px] h-[200px] lg:w-[380px] lg:h-[240px]',
+    },
+    center: {
+      className: 'absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[45%] z-10',
+      rotation: '',
+      size: 'w-[400px] h-[250px] lg:w-[500px] lg:h-[280px]',
+    },
+    right: {
+      className: 'absolute bottom-0 right-0 translate-y-[50%] translate-x-[15%] z-0',
+      rotation: '-rotate-[8deg]',
+      size: 'w-[320px] h-[200px] lg:w-[380px] lg:h-[240px]',
+    },
+  }
+
+  const styles = positionStyles[position]
+
+  return (
+    <div className={`${styles.className} pointer-events-none`}>
+      <div className={`relative rounded-2xl overflow-hidden ${styles.rotation} ${styles.size}`}>
+        <video
+          ref={videoRef}
+          src={videos[startIndex]}
+          poster={videos[startIndex].replace('/videos/', '/videos/posters/').replace('.mp4', '.jpg')}
+          loop
+          muted
+          playsInline
+          autoPlay
+          className="w-full h-full object-cover"
+          style={{ backgroundColor: '#0a0a0a' }}
+        />
+        {/* Gradient overlay - fades video to black at top */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/50 to-transparent" style={{ height: '70%' }} />
+        {/* Left edge gradient */}
+        <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black/60 to-transparent" />
+        {/* Right edge gradient */}
+        <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black/60 to-transparent" />
+      </div>
+    </div>
+  )
+}
+
+// Bottom videos container for tablet/laptop
+function BottomVideos({ sectionVisible }: { sectionVisible: boolean }) {
+  return (
+    <>
+      <BottomVideoCard sectionVisible={sectionVisible} position="left" startIndex={0} />
+      <BottomVideoCard sectionVisible={sectionVisible} position="center" startIndex={2} />
+      <BottomVideoCard sectionVisible={sectionVisible} position="right" startIndex={4} />
+    </>
+  )
+}
+
 export default function Community() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const sectionVisible = useInView(ref, { margin: '0px' })
 
   return (
-    <section id="community" className="py-32 relative overflow-hidden" ref={ref}>
-      {/* Background Videos - Hidden on mobile */}
-      <div className="hidden md:block absolute inset-0 pointer-events-none">
+    <section id="community" className="py-16 md:py-24 lg:py-32 relative overflow-hidden" ref={ref}>
+      {/* Background Videos - Large desktop only (xl+) */}
+      <div className="hidden xl:block absolute inset-0 pointer-events-none">
         {/* Single glow behind both videos */}
         <div className="absolute inset-0 flex justify-between items-center px-8">
           <div className="w-[450px] h-[300px] bg-white/[0.04] rounded-3xl blur-3xl" />
@@ -238,11 +341,16 @@ export default function Community() {
         <CyclingVideo side="right" sectionVisible={sectionVisible} />
       </div>
 
+      {/* Bottom Videos - Tablet and laptop (md to xl) */}
+      <div className="hidden md:block xl:hidden">
+        <BottomVideos sectionVisible={sectionVisible} />
+      </div>
+
       {/* Subtle background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent" />
 
       {/* Content */}
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
+      <div className="max-w-3xl mx-auto px-4 md:px-6 relative z-10">
         {/* Main CTA Card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -250,16 +358,15 @@ export default function Community() {
           transition={{ duration: 0.8 }}
           className="relative rounded-3xl overflow-hidden"
         >
-          <div className="relative p-12 md:p-16 text-center">
+          <div className="relative py-6 md:p-12 lg:p-16 md:text-center">
             {/* Heading */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6"
+              className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-left min-[375px]:text-center"
             >
               {community.heading.line1}
-              <br />
               <span className="gradient-text">{community.heading.line2}</span>
             </motion.h2>
 
@@ -268,7 +375,7 @@ export default function Community() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-muted max-w-2xl mx-auto mb-8"
+              className="text-base md:text-lg text-muted max-w-2xl mx-auto mb-8 md:mb-10 text-left min-[375px]:text-center"
             >
               {renderText(community.description)}
             </motion.p>
@@ -278,7 +385,7 @@ export default function Community() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="flex flex-col sm:flex-row items-stretch md:items-center md:justify-center gap-4"
             >
               <a
                 href={community.cta.primary.href}

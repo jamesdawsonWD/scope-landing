@@ -90,6 +90,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        {/* Favicon */}
+        <link rel="icon" href="/daydream-logo.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/daydream-logo.svg" />
+        
         {/* Preconnect to video CDN for faster loading */}
         <link rel="preconnect" href="https://scope.livepeer.cloud" />
         <link rel="dns-prefetch" href="https://scope.livepeer.cloud" />

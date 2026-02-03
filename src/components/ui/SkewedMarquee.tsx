@@ -30,7 +30,7 @@ export function MarqueeBento({
   return (
     <div className="relative overflow-hidden">
       <motion.div
-        className="flex"
+        className="flex gap-3"
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: slowDuration, repeat: Infinity, ease: 'linear' }}
         style={{
@@ -58,7 +58,7 @@ export function MarqueeBento({
 
 function FlexStrip({ tiles, isPrimaryStrip }: { tiles: string[]; isPrimaryStrip: boolean }) {
   return (
-    <div className="flex gap-3 pr-6">
+    <div className="flex gap-3">
       {tiles.map((src, idx) => {
         // Only first PRIORITY_COUNT videos in the primary strip get priority loading
         const isPriority = isPrimaryStrip && idx < PRIORITY_COUNT

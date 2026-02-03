@@ -92,13 +92,13 @@ export default function Download() {
   }
 
   return (
-    <section id="download" className="py-32 relative" ref={ref}>
+    <section id="download" className="py-16 md:py-24 lg:py-32 relative" ref={ref}>
       
       {/* Gradient orbs */}
       <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[128px]" />
       <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[128px]" />
 
-      <div className="max-w-5xl mx-auto px-6 relative">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 relative">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -106,10 +106,10 @@ export default function Download() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-left min-[375px]:text-center">
             {renderText(download.heading)}
           </h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted max-w-2xl mx-auto text-left min-[375px]:text-center">
             {renderText(download.description)}
           </p>
         </motion.div>
@@ -205,41 +205,40 @@ export default function Download() {
               </span>
             </div>
 
-            <div className="flex flex-col md:flex-row">
+            <div className="flex flex-col">
               {/* Video Section */}
-              <div className="relative w-full md:w-1/2 h-64 md:h-auto overflow-hidden">
+              <div className="relative w-full h-48 md:h-64 overflow-hidden">
                 <ExternalVideo
                   src="https://framerusercontent.com/assets/QEIs2ayJotuQ4U1kheYcb3gNc.mp4"
                   className="w-full h-full object-cover"
                 />
                 {/* Gradient overlays */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-card md:block hidden" />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent md:hidden" />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
               </div>
 
               {/* Content Section */}
-              <div className="relative w-full md:w-1/2 p-8 flex flex-col">
+              <div className="relative w-full p-6 md:p-8 flex flex-col">
                 {/* Icon and Title */}
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 mb-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-neutral-400 to-neutral-600 flex items-center justify-center">
                     <Globe className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold">{download.browser.title}</h3>
+                    <h3 className="text-lg md:text-xl font-semibold">{download.browser.title}</h3>
                     <p className="text-sm text-muted">{download.browser.description}</p>
                   </div>
                 </div>
 
                 {/* Features */}
-                <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="grid grid-cols-3 gap-2 md:gap-3 mb-6">
                   {download.browser.features.map((feature, index) => {
                     const icons = [Cloud, Zap, Sparkles]
                     const Icon = icons[index]
                     return (
-                      <div key={index} className="flex flex-col items-center text-center p-3 rounded-xl bg-white/5">
-                        <Icon className="w-5 h-5 text-white/70 mb-1" />
-                        <span className="text-xs font-medium">{feature.label}</span>
-                        <span className="text-xs text-muted">{feature.sublabel}</span>
+                      <div key={index} className="flex flex-col items-center text-center p-2 md:p-3 rounded-xl bg-white/5">
+                        <Icon className="w-4 h-4 md:w-5 md:h-5 text-white/70 mb-1" />
+                        <span className="text-[10px] md:text-xs font-medium">{feature.label}</span>
+                        <span className="text-[10px] md:text-xs text-muted hidden md:block">{feature.sublabel}</span>
                       </div>
                     )
                   })}

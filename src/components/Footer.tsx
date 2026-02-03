@@ -54,23 +54,22 @@ export default function Footer() {
   return (
     <footer className="relative pt-20 pb-8 border-t border-card-border">
 
-      <div className="max-w-7xl mx-auto px-6 relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-16">
           {/* Brand Column */}
           <div className="col-span-2">
             <motion.a 
               href="#"
-              className="flex items-center gap-3 mb-6"
+              className="flex items-center mb-6"
               whileHover={{ scale: 1.02 }}
               onClick={() => trackLogoClick()}
             >
               <img 
                 src={navigation.logo.src}
                 alt={navigation.logo.alt}
-                className="w-8 h-8 rounded-lg object-cover"
+                className="h-6 w-auto"
               />
-              <span className="text-xl font-semibold">Scope</span>
             </motion.a>
             <p className="text-sm text-muted mb-6">
               {footer.brand.description}

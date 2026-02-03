@@ -12,22 +12,22 @@ export default function Features() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="features" className="py-32 relative" ref={ref}>
+    <section id="features" className="py-16 md:py-24 lg:py-32 relative" ref={ref}>
       
-      <div className="max-w-7xl mx-auto px-6 relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 text-left min-[375px]:text-center">
             {features.heading.line1}
             <br />
             <span className="gradient-text">{features.heading.line2}</span>
           </h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted max-w-2xl mx-auto text-left min-[375px]:text-center">
             {renderText(features.description)}
           </p>
         </motion.div>
@@ -37,7 +37,7 @@ export default function Features() {
           {/* Single glow behind all cards */}
           <div className="absolute inset-0 -inset-x-8 -inset-y-8 bg-white/[0.03] rounded-[3rem] blur-3xl" />
           
-          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+          <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:auto-rows-[180px]">
           {/* Large Feature Card - Real-time Control */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -45,29 +45,29 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-2 lg:row-span-2 group relative"
           >
-            <div className="relative h-full p-8 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
+            <div className="relative h-full p-5 lg:p-8 rounded-2xl lg:rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
               {/* Animated particles background */}
               <ParticleField />
               
               {/* Content */}
               <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
-                    <Sliders className="w-7 h-7 text-white" />
+                <div className="flex items-start justify-between mb-3 lg:mb-4">
+                  <div className="p-2.5 lg:p-3 rounded-xl lg:rounded-2xl bg-white/10 backdrop-blur-sm">
+                    <Sliders className="w-5 h-5 lg:w-7 lg:h-7 text-white" />
                   </div>
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 45 }}
-                    className="p-2 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    className="p-2 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer hidden lg:block"
                   >
                     <ArrowUpRight className="w-4 h-4" />
                   </motion.div>
                 </div>
                 
                 <div className="mt-auto">
-                  <h3 className="text-2xl lg:text-3xl font-bold mb-3 group-hover:text-white transition-colors">
+                  <h3 className="text-lg lg:text-3xl font-semibold mb-2 lg:mb-3 group-hover:text-white transition-colors">
                     {features.items.creativeControl.title}
                   </h3>
-                  <p className="text-muted leading-relaxed text-base lg:text-lg">
+                  <p className="text-muted leading-relaxed text-sm lg:text-lg hidden lg:block">
                     {features.items.creativeControl.description}
                   </p>
                 </div>
@@ -85,23 +85,23 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-2 group relative"
           >
-            <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
+            <div className="relative h-full p-5 lg:p-6 rounded-2xl lg:rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
               <AnimatedBeam />
               
               <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-start justify-between mb-3">
                   <div className="p-2.5 rounded-xl bg-white/10">
                     <Cloud className="w-5 h-5 text-white" />
                   </div>
-                  <span className="px-3 py-1 text-xs font-medium rounded-full bg-white/10 text-white border border-white/20">
+                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
                     Coming Soon
                   </span>
                 </div>
                 
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-white transition-colors">
+                <h3 className="text-lg lg:text-xl font-semibold mb-2 group-hover:text-white transition-colors">
                   {features.items.cloudApi.title}
                 </h3>
-                <p className="text-muted text-sm">
+                <p className="text-muted text-sm leading-relaxed hidden lg:block">
                   {features.items.cloudApi.description}
                 </p>
               </div>
@@ -115,7 +115,7 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="group relative"
           >
-            <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
+            <div className="relative h-full p-5 lg:p-6 rounded-2xl lg:rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
               <DotPattern className="opacity-50" />
               
               <div className="relative z-10 h-full flex flex-col">
@@ -123,9 +123,9 @@ export default function Features() {
                   <Cpu className="w-5 h-5 text-white" />
                 </div>
                 
-                <h2 className="text-2xl font-semibold mb-2 group-hover:text-white transition-colors">
+                <h3 className="text-lg lg:text-2xl font-semibold mb-2 group-hover:text-white transition-colors">
                   {features.items.openSource.title}
-                </h2>
+                </h3>
             
               </div>
               
@@ -140,19 +140,19 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="lg:row-span-2 group relative"
           >
-            <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
+            <div className="relative h-full p-5 lg:p-6 rounded-2xl lg:rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
               {/* Stacked layers visual */}
       
               
               <div className="relative z-10 h-full flex flex-col">
-                <div className="p-2.5 rounded-xl bg-white/10 w-fit mb-4">
+                <div className="p-2.5 rounded-xl bg-white/10 w-fit mb-3 lg:mb-4">
                   <Layers className="w-5 h-5 text-white" />
                 </div>
                 
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-white transition-colors">
+                <h3 className="text-lg lg:text-xl font-semibold mb-2 lg:mb-3 group-hover:text-white transition-colors">
                   {features.items.workflows.title}
                 </h3>
-                <p className="text-muted text-sm leading-relaxed mb-4">
+                <p className="text-muted text-sm leading-relaxed hidden lg:block">
                   {features.items.workflows.description}
                 </p>
                 
@@ -168,16 +168,16 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="group relative"
           >
-            <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
+            <div className="relative h-full p-5 lg:p-6 rounded-2xl lg:rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
               <div className="relative z-10 h-full flex flex-col">
                 <div className="p-2.5 rounded-xl bg-white/10 w-fit mb-3">
                   <Zap className="w-5 h-5 text-white" />
                 </div>
                 
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition-colors">
+                <h3 className="text-lg lg:text-xl font-semibold mb-2 group-hover:text-white transition-colors">
                   {features.items.localFirst.title}
                 </h3>
-                <p className="text-muted text-sm leading-relaxed">
+                <p className="text-muted text-sm leading-relaxed hidden lg:block">
                   {features.items.localFirst.description}
                 </p>
               </div>
@@ -198,19 +198,18 @@ export default function Features() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="lg:col-span-2 group relative"
           >
-            <div className="relative h-full p-6 rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
-           
-              
-              <div className="relative z-10 h-full flex flex-col justify-center">
-                <div className="flex items-center gap-4">
-                  <div className="p-2.5 rounded-xl bg-white/10">
+            <div className="relative h-full p-5 lg:p-6 rounded-2xl lg:rounded-3xl bg-card border border-card-border overflow-hidden transition-all duration-500 hover:border-white/20">
+              <div className="relative z-10 h-full flex flex-col">
+                {/* Mobile/Tablet: Icon top, title below. Desktop: Side by side */}
+                <div className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-4">
+                  <div className="p-2.5 rounded-xl bg-white/10 w-fit">
                     <Box className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-1 group-hover:text-white transition-colors">
+                    <h3 className="text-lg lg:text-xl font-semibold group-hover:text-white transition-colors">
                       {features.items.models.title}
                     </h3>
-                    <p className="text-muted text-sm">
+                    <p className="text-muted text-sm leading-relaxed hidden lg:block">
                       {features.items.models.description}
                     </p>
                   </div>
