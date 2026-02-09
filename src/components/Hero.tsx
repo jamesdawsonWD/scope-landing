@@ -16,6 +16,9 @@ const videos = [
   '/videos/video-5.mp4',
   '/videos/video-6.mp4',
   '/videos/video-7.mp4',
+  '/videos/memflow.mp4',
+  '/videos/reward-forcing.mp4',
+  '/videos/stream-diffusion-v2.mp4',
 ]
 
 export default function Hero() {
@@ -74,12 +77,12 @@ export default function Hero() {
           {renderText(hero.description)}
         </motion.p>
 
-        {/* CTA Button - always centered */}
+        {/* CTA Buttons - always centered */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="flex items-center justify-center mb-16 w-full"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 w-full"
         >
           <a
             href={hero.cta.primary.href}
@@ -94,6 +97,24 @@ export default function Hero() {
             <span className="flex flex-col items-start leading-tight">
               <span>Download Scope</span>
               <span className="text-xs opacity-60 font-normal">v0.1.0-beta.3</span>
+            </span>
+          </a>
+          <a
+            href={hero.cta.tertiary.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary flex items-center gap-3 text-lg px-8 py-4"
+            onClick={() => trackCTAClick('Explore Community', 'hero', 'secondary')}
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <span className="flex flex-col items-start leading-tight">
+              <span>{hero.cta.tertiary.label}</span>
+              <span className="text-xs opacity-60 font-normal">{hero.cta.tertiary.subtext}</span>
             </span>
           </a>
         </motion.div>

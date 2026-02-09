@@ -59,6 +59,11 @@ export const hero = {
       label: 'Learn',
       href: 'https://docs.daydream.live/',
     },
+    tertiary: {
+      label: 'Explore Community',
+      subtext: 'Discuss realtime AI',
+      href: 'https://app.daydream.live',
+    },
   },
 }
 
@@ -204,21 +209,21 @@ export const models = {
       type: 'Autoregressive Video Diffusion Model',
       description: 'Memory-efficient video flow generation',
       link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/memflow/docs/usage.md',
-      video: '/videos/video-3.mp4',
+      video: '/videos/memflow.mp4',
     },
     {
       name: 'StreamDiffusionV2',
       type: 'Autoregressive Video Diffusion Model',
       description: 'Streaming real-time diffusion pipeline',
       link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/streamdiffusionv2/docs/usage.md',
-      video: '/videos/streamdiffusion-demo.mp4',
+      video: '/videos/stream-diffusion-v2.mp4',
     },
     {
       name: 'Reward-Forcing-T2V-1.3B',
       type: 'Autoregressive Video Diffusion Model',
       description: 'Text-to-video with reward optimization',
       link: 'https://github.com/daydreamlive/scope/blob/main/src/scope/core/pipelines/reward_forcing/docs/usage.md',
-      video: '/videos/video-5.mp4',
+      video: '/videos/reward-forcing.mp4',
     },
   ],
 }
@@ -453,7 +458,7 @@ export const navigation = {
     { label: 'Learn', href: 'https://docs.daydream.live/', external: true },
     { label: 'Community', href: 'https://app.daydream.live/discover', external: true },
     { label: 'Creator Program', href: '/program', external: false },
-    { label: 'Pricing', href: '/pricing', external: false },
+    // { label: 'Pricing', href: '/pricing', external: false },
   ],
   github: 'https://github.com/daydreamlive/scope',
   cta: {
